@@ -1,0 +1,53 @@
+<div data-role="page" id="MainPage" class="type-home">
+<script>
+function local_pageinit() {
+	$("#dettaglioImmagine").attr("src",sessionStorage.dettaglioImmagine);
+	$("#dettaglioTitolo").text(sessionStorage.dettaglioTitolo);
+		$("#dettaglioTitolo2").text(sessionStorage.dettaglioTitolo);
+	$("#acquistaButton").text(sessionStorage.dettaglioPrezzo + " - Acquista ora!");
+
+	$("#acquistaButton").attr("href",sessionStorage.dettaglioURL);
+		$("#acquistaHeader").attr("href",sessionStorage.dettaglioURL);
+	
+	//$("#acquistaButton").bind("click",function() {navigator.app.loadUrl(sessionStorage.dettaglioURL, { openExternal:true } ); });
+//alert(sessionStorage.dettaglioTitolo);
+//alert(sessionStorage.dettaglioPrezzo);
+//alert(sessionStorage.dettaglioURL);
+//alert(sessionStorage.dettaglioImmagine);
+}
+</script>
+    <div data-role="header">
+	<a href="risultati.html" data-icon="delete">Indietro</a>
+	<h1 id="dettaglioTitolo">Acquista</h1>
+	<a href="" data-icon="check" id="acquistaHeader">Acquista</a>
+</div>
+
+	<div data-role="content">
+    
+
+    
+    
+		<p class="jqm-version"></p>
+
+		<div class="content-secondary">
+        
+        <h1 id="dettaglioTitolo2">Acquista</h1>
+        
+<center><img id="dettaglioImmagine" /></center>
+<a href="#" data-role="button" rel="external" id="acquistaButton"></a>
+                      
+
+      </div><!--/content-primary-->
+
+		
+	</div>
+
+	<div data-role="footer" class="footer-docs" data-theme="c">
+            <p class="jqm-version"></p>
+			<p  class="af-copyright"></p>
+	</div>
+
+</div>
+
+
+
