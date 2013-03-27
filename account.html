@@ -1,0 +1,66 @@
+<div data-role="page" id="MainPage" class="type-home">
+<script>
+function local_pageinit() {
+    $("#URL").val(localStorage.URL);
+    $("#username").val(localStorage.Username);
+    $("#password").val(localStorage.Password);
+}
+    
+    function salva() {
+        //alert($("#URL").val());
+        localStorage.URL = $("#URL").val();
+        localStorage.Username = $("#username").val();
+        localStorage.Password = $("#password").val();
+        $.mobile.changePage("index.html");
+        caricaCategorie();
+    }
+
+    
+    
+</script>
+    <div data-role="header">
+	<a href="index.html" data-icon="delete">Indietro</a>
+	<h1 id="dettaglioTitoloFeed">Account</h1>
+	<a href="" data-icon="check" id="acquistaHeader" onclick="salva();">Salva</a>
+</div>
+
+	<div data-role="content">
+    
+
+    
+    
+		
+
+		<div class="content-secondary">
+        
+        
+        
+
+<label for="basic">URL:</label>
+<input type="text" name="URL" id="URL" data-mini="true" />                      
+            
+
+<label for="basic">Username:</label>
+<input type="text" name="username" id="username" data-mini="true" />              
+            
+<label for="basic">Password:</label>
+<input type="password" name="password" id="password" data-mini="true" />              
+
+            
+        </div><!--/content-primary-->
+
+		
+	</div>
+
+	<div data-role="footer" class="footer-docs" data-theme="c">
+            <p class="jqm-version"></p>
+			<p  class="af-copyright"></p>
+	</div>
+<script>
+  //  global_pageinit();
+local_pageinit();    
+</script>
+</div>
+
+
+

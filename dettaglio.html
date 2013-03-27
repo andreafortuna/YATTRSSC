@@ -13,7 +13,7 @@ function local_pageinit() {
         var list = $('#articlesListView');
          $.each(articles, function() {
             //alert(this.id + " " + this.title);
-            if (this.id != "")  list.append("<li><a style='white-space : normal;' href='#'  onclick=\"sessionStorage.articleID='" + this.id + "'\">" + this.title + "</a><p style='margin-left:10px;'>" + timeConverter(this.updated) + "</p></li>");
+            if (this.id != "")  list.append("<li><a style='white-space : normal;' href='articolo.html'  onclick=\"sessionStorage.articleID='" + this.id + "'\">" + this.title + "</a><p style='margin-left:15px;'>" + timeConverter(this.updated) + "</p></li>");
 					
         });
         

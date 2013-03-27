@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <widget xmlns = "http://www.w3.org/ns/widgets"
     xmlns:gap = "http://phonegap.com/ns/1.0"
-    id        = "com.phonegap.example"
-    version   = "1.0.0">
+    id        = "org.andreafortuna.yattrssc"
+    version   = "0.0.1">
 
-<name>Regalo Perfetto!</name>
+<name>YATTRSSC</name>
 
 <description>
-Trova il regalo perfetto!
+Yet Another Tiny Tiny RSS Client
 </description>
 
 <author href="https://www.andreafortuna.org" email="andy@andreafortuna.org">

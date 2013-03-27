@@ -13,33 +13,20 @@
     <script src="js/ttrss.js"></script>
 	<script>
 	
+        document.addEventListener("deviceready", local_pageinit);
+        
+        
+     
+        
 		function local_pageinit() {
-//  alert("init");
-        /*$.post("http://reader.andreafortuna.org/api/", { "op": "login", "user": "admin", "password": "asturias" }).done(function(data) {
-                //var obj = jQuery.parseJSON(data);
-                alert( data.content.error );
             
-            ;}
-        );*/
-    sessionStorage.URL = "http://reader.andreafortuna.org";
-    //var session_id= "";
             
-    
-         sessionStorage.session_id=login(sessionStorage.URL,"admin","asturias");   
+            caricaCategorie();
         
-        //alert(session_id);
-        var categorie =  getCategories(sessionStorage.URL, sessionStorage.session_id);
-        
-        var list = $('#categorieListView');
-         $.each(categorie, function() {
-            //alert(this.id + " " + this.title);
-             list.append("<li><a href='feeds.html'  onclick=\"sessionStorage.catID='" + this.id + "';sessionStorage.catTitle='" + this.title + "'\">" + this.title + "</h4></a><span class=\"ui-li-count\">" + this.unread + "</span></li>");
-					
-        });
-        list.listview("refresh");
             
         }
 
+        
         
 
 	</script>
@@ -73,7 +60,7 @@
 
 				<ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 					<li data-role="list-divider">Impostazioni</li>
-					<li><a href="persone.html">Account</a></li>					
+					<li><a href="account.html">Account</a></li>					
                     <li><a href="about.html">About</a></li>					
 				</ul>
 			</nav>
@@ -87,7 +74,10 @@
             <p class="jqm-version"></p>
 			<p  class="af-copyright"></p>
 	</div>
-
+<script>
+//local_pageinit();    
+    
+</script>
 </div>
 </body>
 </html>

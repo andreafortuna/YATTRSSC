@@ -3,6 +3,8 @@
 
 function login(url, user, password) {
     var session_id= "";
+    
+    
 var data = {
         op: "login",
         user: user,
@@ -20,11 +22,21 @@ var data = {
           {
             //$("#risultato").html(msg);
               //alert( data.content.session_id);
-              session_id = data.content.session_id;
+              if (data.status == "1") {
+            if (localStorage.URL!="" || localStorage.URL!="undefined") alert("Errore di accesso:" + data.content.error)
+                session_id="";
+              } else {
+                session_id = data.content.session_id;
+              }
           },
           error: function()
           {
-            alert("Errore di rete");
+            if (localStorage.URL!="" || localStorage.URL!="undefined")  { 
+                alert("Host non raggiungibile:" + url);
+            } else {
+                $.mobile.changePage("account.html");
+            }
+            
           }
       });
     return session_id;
@@ -56,7 +68,7 @@ function getCategories(url, session_id) {
           },
           error: function()
           {
-            alert("Errore di rete");
+            //alert("Errore di rete");
           }
       });
     return categorie;
@@ -142,7 +154,7 @@ function getArticles(url, session_id, feed_id) {
 
 
 function getArticle(url, session_id, article_id) {
-    var feeds = "";
+    var article = "";
     var data = {
         op: "getArticle",
         sid: session_id,
@@ -160,9 +172,10 @@ function getArticle(url, session_id, article_id) {
           {
             //$("#risultato").html(msg);
               //alert( data.content);
-              feeds= data.content;
-                 $.each(data.content, function() {
-                    alert(this.id + " " + this.title);
+              //article= data.content;
+                $.each(data.content, function() {
+                    //alert(this.id + " " + this.title);
+                    article= this;
                 });
           },
           error: function()
@@ -170,6 +183,6 @@ function getArticle(url, session_id, article_id) {
             alert("Errore di rete");
           }
       });
-    return feeds;
+    return article;
 }
 

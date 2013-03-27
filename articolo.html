@@ -1,15 +1,18 @@
 <div data-role="page" id="MainPage" class="type-home">
 <script>
 function local_pageinit() {
-    alert(sessionStorage.articleID);
+    //alert(sessionStorage.articleID);
     
     
     
     $('#dettaglioTitoloArticolo').text(sessionStorage.feedTitle);
     
      
-        var articles =  getArticle(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID);
-        
+        var article =  getArticle(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID);
+        //alert(article.title);
+    $('#dettaglioTitoloArticolo2').text(article.title);
+    $('#dettaglioDataArticolo').text(timeConverter(article.updated));
+    $('#contenutoArticolo').html(article.content);
       /*  var list = $('#articlesListView');
          $.each(articles, function() {
             //alert(this.id + " " + this.title);
@@ -37,9 +40,9 @@ function local_pageinit() {
 
 		<div class="content-secondary">
         
-        <h1 id="dettaglioTitolo2"></h1>
-        
-
+        <h2 id="dettaglioTitoloArticolo2"></h2>
+        <h3 id="dettaglioDataArticolo"></h3>
+        <p id="contenutoArticolo"></p>
 
             
             

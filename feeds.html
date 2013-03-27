@@ -13,7 +13,7 @@ function local_pageinit() {
         var list = $('#feedsListView');
          $.each(feeds, function() {
             //alert(this.id + " " + this.title);
-            if (this.id != "")  list.append("<li><a href='dettaglio.html'  onclick=\"sessionStorage.feedID='" + this.id + "';sessionStorage.feedTitle='" + this.title + "'\">" + this.title + "</h4></a><span class=\"ui-li-count\">" + this.unread + "</span></li>");
+            if (this.id != "" && this.unread > 0)  list.append("<li><a href='dettaglio.html'  onclick=\"sessionStorage.feedID='" + this.id + "';sessionStorage.feedTitle='" + this.title + "'\">" + this.title + "</h4></a><span class=\"ui-li-count\">" + this.unread + "</span></li>");
 					
         });
         

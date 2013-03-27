@@ -16,7 +16,7 @@ function global_pageinit() {
 	$( ".footer-docs p.af-copyright" ).html( cright );
 	
 	
-	local_pageinit();
+	//local_pageinit();
 	
 }
 
@@ -34,3 +34,24 @@ function timeConverter(UNIX_timestamp){
      return time;
  }
 
+
+
+   function caricaCategorie() {
+            sessionStorage.URL = localStorage.URL;
+    
+         sessionStorage.session_id=login(sessionStorage.URL,localStorage.Username,localStorage.Password);   
+        if (sessionStorage.session_id=="" || sessionStorage.session_id=="undefined") {
+            $.mobile.changePage("account.html", null, true, true);
+        }
+            
+        //alert(session_id);
+        var categorie =  getCategories(sessionStorage.URL, sessionStorage.session_id);
+        
+        var list = $('#categorieListView');
+         $.each(categorie, function() {
+            //alert(this.id + " " + this.title);
+            if (this.unread > 0) list.append("<li><a href='feeds.html'  onclick=\"sessionStorage.catID='" + this.id + "';sessionStorage.catTitle='" + this.title + "'\">" + this.title + "</h4></a><span class=\"ui-li-count\">" + this.unread + "</span></li>");
+					
+        });
+        list.listview("refresh");
+        }
