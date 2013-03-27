@@ -10,12 +10,37 @@
 	
 	<script src="js/jquery.mobile-1.2.0.js"></script>
 <script src="js/func.js"></script>
+    <script src="js/ttrss.js"></script>
 	<script>
 	
 		function local_pageinit() {
-//alert("init");
-		}
-		
+//  alert("init");
+        /*$.post("http://reader.andreafortuna.org/api/", { "op": "login", "user": "admin", "password": "asturias" }).done(function(data) {
+                //var obj = jQuery.parseJSON(data);
+                alert( data.content.error );
+            
+            ;}
+        );*/
+    sessionStorage.URL = "http://reader.andreafortuna.org";
+    //var session_id= "";
+            
+    
+         sessionStorage.session_id=login(sessionStorage.URL,"admin","asturias");   
+        
+        //alert(session_id);
+        var categorie =  getCategories(sessionStorage.URL, sessionStorage.session_id);
+        
+        var list = $('#categorieListView');
+         $.each(categorie, function() {
+            //alert(this.id + " " + this.title);
+             list.append("<li><a href='feeds.html'  onclick=\"sessionStorage.catID='" + this.id + "';sessionStorage.catTitle='" + this.title + "'\">" + this.title + "</h4></a><span class=\"ui-li-count\">" + this.unread + "</span></li>");
+					
+        });
+        list.listview("refresh");
+            
+        }
+
+        
 
 	</script>
 </head>
@@ -28,16 +53,15 @@
 
 			<div id="jqm-homeheader">
 				<h1 id="jqm-logo"><img src="images/logo.png" alt="jQuery Mobile Framework" /></h1>
-				<p>Tiny Tiny RSS Simple Client</p>
+				<br/>
 			</div>
 
 
 
 
-			<ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="f">
+			<ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="f" id="categorieListView">
 				<li data-role="list-divider">Categorie</li>
-				<li><a href="ricerca.html" onclick="sessionStorage.Tipo='natale';"><img src="images/natale.png"/>Natale</a></li>
-				<li><a href="ricerca.html" onclick="sessionStorage.Tipo='pasqua';"><img src="images/pasqua.png"/>Pasqua</a></li>
+
 			</ul>
 
 

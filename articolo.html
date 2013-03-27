@@ -1,21 +1,21 @@
 <div data-role="page" id="MainPage" class="type-home">
 <script>
 function local_pageinit() {
-    //alert(sessionStorage.feedID);
+    alert(sessionStorage.articleID);
     
     
     
-    $('#dettaglioTitoloFeed').text(sessionStorage.feedTitle);
+    $('#dettaglioTitoloArticolo').text(sessionStorage.feedTitle);
     
      
-        var articles =  getArticles(sessionStorage.URL, sessionStorage.session_id, sessionStorage.feedID);
+        var articles =  getArticle(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID);
         
-        var list = $('#articlesListView');
+      /*  var list = $('#articlesListView');
          $.each(articles, function() {
             //alert(this.id + " " + this.title);
             if (this.id != "")  list.append("<li><a style='white-space : normal;' href='#'  onclick=\"sessionStorage.articleID='" + this.id + "'\">" + this.title + "</a><p style='margin-left:10px;'>" + timeConverter(this.updated) + "</p></li>");
 					
-        });
+        });*/
         
     //list.listview("refresh");
     
@@ -24,7 +24,7 @@ function local_pageinit() {
 </script>
     <div data-role="header">
 	<a href="feeds.html" data-icon="delete">Indietro</a>
-	<h1 id="dettaglioTitoloFeed">Dettaglio</h1>
+	<h1 id="dettaglioTitoloArticolo">Dettaglio</h1>
 	<a href="" data-icon="check" id="acquistaHeader">Opzioni</a>
 </div>
 
@@ -40,10 +40,7 @@ function local_pageinit() {
         <h1 id="dettaglioTitolo2"></h1>
         
 
-                      
-<ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="f" id="articlesListView">
-				
-</ul>
+
             
             
       </div><!--/content-primary-->
