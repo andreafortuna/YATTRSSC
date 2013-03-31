@@ -10,39 +10,66 @@ function local_pageinit() {
      
         var article =  getArticle(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID);
         //alert(article.title);
-    $('#dettaglioTitoloArticolo2').text(article.title);
-    $('#dettaglioDataArticolo').text(timeConverter(article.updated));
-    $('#contenutoArticolo').html(article.content);
-      /*  var list = $('#articlesListView');
-         $.each(articles, function() {
-            //alert(this.id + " " + this.title);
-            if (this.id != "")  list.append("<li><a style='white-space : normal;' href='#'  onclick=\"sessionStorage.articleID='" + this.id + "'\">" + this.title + "</a><p style='margin-left:10px;'>" + timeConverter(this.updated) + "</p></li>");
-					
-        });*/
-        
-    //list.listview("refresh");
     
+    sessionStorage.articleTitle = article.title;
+    sessionStorage.articleLink = article.link;
+    
+    $('#dettaglioTitoloArticolo2').html("<a href='#' onclick=\"window.open('" + encodeURIComponent(article.link)  + "', '_system');\">" + article.title + "</a>");
+    $('#dettaglioDataArticolo').text(timeConverter(article.updated));
+    //Rimuovo anchor
+    try {
+        var html = article.content;
+        var o=$(html).find('a').replaceWith(function(){ return this.innerHTML; }).end();
+        $('#contenutoArticolo').html(o);
+    } catch(e) {
+        $('#contenutoArticolo').html(article.content);
+    }
+    
+    
+    
+   // SHARING TOOLS 
+    $('#facebookShare').click(function() {
+      window.open('http://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(article.link)  + '&t=' + article.title,'_system');
+    });
+    $('#twitterShare').click(function() {
+      window.open('http://www.twitter.com/share?url=' + encodeURIComponent(article.link), '_system');
+    });
+    
+    $('#emailShare').click(function() {
+      window.open('mailto:?subject=' + article.title + '&body=' + encodeURIComponent(article.link), '_system');
+    });
+
     
 }
 </script>
-    <div data-role="header">
-	<a href="feeds.html" data-icon="delete">Indietro</a>
-	<h1 id="dettaglioTitoloArticolo">Dettaglio</h1>
-	<a href="" data-icon="check" id="acquistaHeader">Opzioni</a>
+    <div data-role="header" data-position="fixed">
+	<a href="dettaglio.html" data-icon="back">Back</a>
+	<h1 id="dettaglioTitoloArticolo">Details</h1>
+	<a href="#popupMenu" data-icon="check" data-rel="popup" id="acquistaHeader">Options</a>
 </div>
 
 	<div data-role="content">
     
 
-    
-    
-		
 
-		<div class="content-secondary">
+
+		<div style="margin:10px;">
         
         <h2 id="dettaglioTitoloArticolo2"></h2>
         <h3 id="dettaglioDataArticolo"></h3>
+            
+
         <p id="contenutoArticolo"></p>
+
+            <div data-role="popup" id="popupMenu" data-theme="a">
+				<ul data-role="listview" data-inset="true" style="min-width:210px;" data-theme="b">
+					<li data-role="divider" id="titoloDialog" data-theme="a">Options</li>
+					<li><a href="#">Mark as unread</a></li>
+					<li><a href="#" id="facebookShare" >Share on Facebook</a></li>
+					<li><a href="#" id="twitterShare">Share on Twitter</a></li>
+                    <li><a href="#" id="emailShare">Email</a></li>
+				</ul>
+		      </div>
 
             
             
@@ -60,6 +87,7 @@ function local_pageinit() {
 local_pageinit();    
 </script>
 </div>
+
 
 
 

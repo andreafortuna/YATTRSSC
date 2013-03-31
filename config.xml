@@ -14,4 +14,32 @@ Yet Another Tiny Tiny RSS Client
 Andrea Fortuna
 </author>
 
+<preference name="stay-in-webview" value="false" /> 
+    
+    <icon src="Icon.png" />
+<icon src="icons/ios/Icon.png" width="57" height="57" />
+<icon src="icons/ios/Icon72.png" gap:platform="ios" width="72" height="72" />
+<icon src="icons/ios/Icon2x.png" gap:platform="ios" width="114" height="114" />
+
+<icon src="icons/android/ldpi.png" gap:platform="android" gap:density="ldpi" />
+<icon src="icons/android/mdpi.png" gap:platform="android" gap:density="mdpi" />
+<icon src="icons/android/hdpi.png" gap:platform="android" gap:density="hdpi" />
+<icon src="icons/android/xhdpi.png" gap:platform="android" gap:density="xhdpi" />
+
+<icon src="icons/bb/icon.png" gap:platform="blackberry" />
+        
+        
+        
+<gap:splash src="splash.png" />        
+<gap:splash src="splash/ios/Default.png"  width="320" height="480" />
+<gap:splash src="splash/ios/Default2x.png" width="640" height="960" />
+<gap:splash src="splash/ios/DefaultLandscape.png" width="1024" height="768" />
+<gap:splash src="splash/ios/DefaultPortrait.png"  width="768" height="1024" />        
+
+        
+<gap:splash src="splash/android/splash.png" gap:platform="android" gap:density="ldpi" />
+<gap:splash src="splash/android/splash.png" gap:platform="android" gap:density="mdpi" />
+<gap:splash src="splash/android/splash.png" gap:platform="android" gap:density="hdpi" />
+<gap:splash src="splash/android/splash.png" gap:platform="android" gap:density="xhdpi" />    
+    
 </widget>

@@ -1,5 +1,7 @@
 document.addEventListener("deviceready", global_pageinit);
-//$("#MainPage").live('pageinit', global_pageinit);
+$("#MainPage").live('pageinit', global_pageinit);
+
+
 
 
 
@@ -7,7 +9,7 @@ function global_pageinit() {
 	$.mobile.allowCrossDomainPages = true;
 	
 	var version = "0.0.1 Beta",
-	foothtml = "Versione " + version,
+	foothtml = "Version " + version,
 	cright = "&copy; 2013 Andrea Fortuna";
 
 
@@ -40,7 +42,8 @@ function timeConverter(UNIX_timestamp){
             sessionStorage.URL = localStorage.URL;
     
          sessionStorage.session_id=login(sessionStorage.URL,localStorage.Username,localStorage.Password);   
-        if (sessionStorage.session_id=="" || sessionStorage.session_id=="undefined") {
+    
+       if (sessionStorage.session_id=="" || sessionStorage.session_id==undefined) {
             $.mobile.changePage("account.html", null, true, true);
         }
             

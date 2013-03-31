@@ -23,7 +23,7 @@ var data = {
             //$("#risultato").html(msg);
               //alert( data.content.session_id);
               if (data.status == "1") {
-            if (localStorage.URL!="" || localStorage.URL!="undefined") alert("Errore di accesso:" + data.content.error)
+            if (localStorage.URL != "" && localStorage.URL !=  undefined) alert("Errore di accesso:" + data.content.error)
                 session_id="";
               } else {
                 session_id = data.content.session_id;
@@ -31,9 +31,10 @@ var data = {
           },
           error: function()
           {
-            if (localStorage.URL!="" || localStorage.URL!="undefined")  { 
+            if (localStorage.URL!= "" && localStorage.URL != undefined)  { 
                 alert("Host non raggiungibile:" + url);
             } else {
+                //alert("configurazione");
                 $.mobile.changePage("account.html");
             }
             
@@ -123,7 +124,7 @@ function getArticles(url, session_id, feed_id) {
         view_mode: "unread",
         include_attachments:false,
         since_id:0,
-        limit: 0,
+        limit: 10,
         skip: 0,
         include_nested: false
     };

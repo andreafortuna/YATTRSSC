@@ -13,7 +13,7 @@ function local_pageinit() {
         var list = $('#articlesListView');
          $.each(articles, function() {
             //alert(this.id + " " + this.title);
-            if (this.id != "")  list.append("<li><a style='white-space : normal;' href='articolo.html'  onclick=\"sessionStorage.articleID='" + this.id + "'\">" + this.title + "</a><p style='margin-left:15px;'>" + timeConverter(this.updated) + "</p></li>");
+            if (this.id != "")  list.append("<li><a style='white-space : normal;' href='articolo.html'  onclick=\"sessionStorage.articleID='" + this.id + "'\">" + this.title + "<p style='margin:5px;'>" + timeConverter(this.updated) + "</p></a></li>");
 					
         });
         
@@ -22,20 +22,25 @@ function local_pageinit() {
     
 }
 </script>
-    <div data-role="header">
-	<a href="feeds.html" data-icon="delete">Indietro</a>
-	<h1 id="dettaglioTitoloFeed">Dettaglio</h1>
-	<a href="" data-icon="check" id="acquistaHeader">Opzioni</a>
+    <div data-role="header" data-position="fixed">
+	<a href="feeds.html" data-icon="back">Back</a>
+	<h1 id="dettaglioTitoloFeed">Details</h1>
+	<a href="#popupMenu" data-icon="check" data-rel="popup" id="acquistaHeader">Options</a>
 </div>
 
 	<div data-role="content">
     
 
-    
+    		<div data-role="popup" id="popupMenu" data-theme="a">
+				<ul data-role="listview" data-inset="true" style="min-width:210px;" data-theme="b">
+					<li data-role="divider" id="titoloDialog" data-theme="a">Options</li>
+					<li><a href="share.html">Mark all as read</a></li>
+				</ul>
+		</div>
     
 		
 
-		<div class="content-secondary">
+		<div style="margin:10px;">
         
         <h1 id="dettaglioTitolo2"></h1>
         
