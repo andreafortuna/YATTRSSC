@@ -7,7 +7,9 @@ $("#MainPage").live('pageinit', global_pageinit);
 
 function global_pageinit() {
 	$.mobile.allowCrossDomainPages = true;
-	
+	$.mobile.buttonMarkup.hoverDelay = 0;
+    
+    
 	var version = "0.0.1 Beta",
 	foothtml = "Version " + version,
 	cright = "&copy; 2013 Andrea Fortuna";
@@ -20,6 +22,11 @@ function global_pageinit() {
 	
 	//local_pageinit();
 	
+}
+
+
+function toast(message) {
+    $("<div  style='background-color: white' class='ui-loader ui-overlay-shadow ui-body-e ui-corner-all'><h4 style='margin:5px;padding:10px;'>" + message + "</h4></div>").css({ "display": "block", "opacity": 0.96, "top": $(window).scrollTop() + 300 ,"left":"30%"}).appendTo( $.mobile.pageContainer ).delay(1500).fadeOut( 400, function(){$(this).remove();});
 }
 
 
@@ -39,7 +46,11 @@ function timeConverter(UNIX_timestamp){
 
 
    function caricaCategorie() {
-            sessionStorage.URL = localStorage.URL;
+       
+       
+       $.mobile.loading('show', {text:"Updating..."});
+       
+         sessionStorage.URL = localStorage.URL;
     
          sessionStorage.session_id=login(sessionStorage.URL,localStorage.Username,localStorage.Password);   
     
@@ -51,10 +62,16 @@ function timeConverter(UNIX_timestamp){
         var categorie =  getCategories(sessionStorage.URL, sessionStorage.session_id);
         
         var list = $('#categorieListView');
+       //Svuoto categorie
+       list.empty();
+       list.append("<li data-role=\"list-divider\">Categories</li>");
          $.each(categorie, function() {
             //alert(this.id + " " + this.title);
-            if (this.unread > 0) list.append("<li><a href='feeds.html'  onclick=\"sessionStorage.catID='" + this.id + "';sessionStorage.catTitle='" + this.title + "'\">" + this.title + "</h4></a><span class=\"ui-li-count\">" + this.unread + "</span></li>");
+            if (this.unread > 0) list.append("<li><a data-transition=\"slide\" href='feeds.html'  onclick=\"sessionStorage.catID='" + this.id + "';sessionStorage.catTitle='" + this.title + "'\">" + this.title + "</h4></a><span class=\"ui-li-count\">" + this.unread + "</span></li>");
 					
         });
         list.listview("refresh");
+       
+       $.mobile.loading('hide');
+       
         }

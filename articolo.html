@@ -1,51 +1,106 @@
 <div data-role="page" id="MainPage" class="type-home">
+
+<div data-role="panel" id="popupMenu" data-position="right" data-display="overlay" data-theme="a">				
+    <a href="#popupMenu" data-role="button" data-rel="close" data-rel="popup" data-position-to="window" id="markUnread" data-transition="slidedown">Mark as unread</a>
+    <a href="#popupMenu" data-role="button" data-rel="close" data-rel="popup" data-position-to="window" id="addStar" data-transition="slidedown">Add Star</a>
+    <a href="#labelPopup" data-role="button" onclick="$('#popupMenu').panel('close');" data-rel="popup" id="addLabel" data-transition="slidedown">Add a Label</a>
+    <a href="#popupMenu" data-role="button" data-rel="close" id="facebookShare" >Share on Facebook</a>
+    <a href="#popupMenu" data-role="button" data-rel="close" id="twitterShare">Share on Twitter</a>                    
+    <a href="#popupMenu" data-role="button" data-rel="close" id="openBrowser">Open in browser</a>                    
+</div>
+
+    
+    
+    
 <script>
+    
+    function setArticleLabel(id, title) {
+        $("#labelPopup").popup("close");
+        if (id=="0") {
+            removeArticleLabels(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID);
+            toast("All labels removed");
+        } else {
+            setLabel(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID, id);
+            toast("Added label " + title);
+        }  
+        
+        
+
+    }
+    
 function local_pageinit() {
-    //alert(sessionStorage.articleID);
+    /******** CARICO LABELS **************/
+    //var list = $('#labelsListView');
+    var labels =  getLabels(sessionStorage.URL, sessionStorage.session_id);
+     $.each(labels, function() {
+        //alert(this.id + " " + this.caption);
+        $('#labelsListView').append("<li><a href=\"#labelOKPopup\" data-rel=\"popup\" data-position-to=\"window\"  onclick=\"setArticleLabel('" + this.id + "','" + this.caption + "');\">" + this.caption + "</a></li>");     
+     });
+    //$('#labelsListView').listview("refresh");
+
+    /*************************************/
     
     
-    
+    var article =  getArticle(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID);
     $('#dettaglioTitoloArticolo').text(sessionStorage.feedTitle);
-    
-     
-        var article =  getArticle(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID);
-        //alert(article.title);
-    
     sessionStorage.articleTitle = article.title;
     sessionStorage.articleLink = article.link;
     
-    $('#dettaglioTitoloArticolo2').html("<a href='#' onclick=\"window.open('" + encodeURIComponent(article.link)  + "', '_system');\">" + article.title + "</a>");
+    //$('#dettaglioTitoloArticolo2').html("<a href='#' onclick=\"window.open('" + encodeURIComponent(article.link)  + "', '_system');\">" + article.title + "</a>");
+    //$('#dettaglioTitoloArticolo2').html("<a href='#' onclick=\"window.open('" + article.link  + "', '_system');\">" + article.title + "</a>");
+    $('#dettaglioTitoloArticolo2').html(article.title);
     $('#dettaglioDataArticolo').text(timeConverter(article.updated));
     //Rimuovo anchor
-    try {
-        var html = article.content;
-        var o=$(html).find('a').replaceWith(function(){ return this.innerHTML; }).end();
-        $('#contenutoArticolo').html(o);
-    } catch(e) {
-        $('#contenutoArticolo').html(article.content);
-    }
+    
+     var content = $('<div>' + article.content + '</div>');
+     content.find('a').replaceWith(function() { return this.childNodes; });
+    var newHtml = content.html();
+    $('#contenutoArticolo').html(newHtml);
+    
+    //Setto a 'letto'
+    setRead(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID);
     
     
     
-   // SHARING TOOLS 
+    
+   //  ******* SHARING TOOLS 
     $('#facebookShare').click(function() {
-      window.open('http://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(article.link)  + '&t=' + article.title,'_system');
+      window.open('http://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(article.link)  + '&t=' + encodeURIComponent(article.title),'_system');
     });
     $('#twitterShare').click(function() {
       window.open('http://www.twitter.com/share?url=' + encodeURIComponent(article.link), '_system');
     });
     
-    $('#emailShare').click(function() {
-      window.open('mailto:?subject=' + article.title + '&body=' + encodeURIComponent(article.link), '_system');
+  /*  $('#emailShare').click(function() {
+      window.location.replace('mailto:?body=' + encodeURIComponent(article.link) + '&subject=' + article.title);
+    //window.open('mailto:pippo@pippo.com');    
+    });*/
+    
+   $('#markUnread').click(function() {
+      setUnRead(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID);
+       toast("Marked as 'unread'");
+   });
+       
+   $('#addStar').click(function() {
+      addStar(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID);
+     toast("Star added");                
+   });
+    
+    
+    $('#openBrowser').click(function() {
+      window.open(article.link, '_system');
     });
-
+   //  ******* FINE SHARING TOOLS  
+    
+    
+    
     
 }
 </script>
     <div data-role="header" data-position="fixed">
-	<a href="dettaglio.html" data-icon="back">Back</a>
+	<a href="dettaglio.html"  data-transition="flip" data-icon="back">Back</a>
 	<h1 id="dettaglioTitoloArticolo">Details</h1>
-	<a href="#popupMenu" data-icon="check" data-rel="popup" id="acquistaHeader">Options</a>
+	<a href="#popupMenu" data-icon="bars" class="jqm-navmenu-link" data-iconpos="notext">Options</a>
 </div>
 
 	<div data-role="content">
@@ -61,15 +116,18 @@ function local_pageinit() {
 
         <p id="contenutoArticolo"></p>
 
-            <div data-role="popup" id="popupMenu" data-theme="a">
-				<ul data-role="listview" data-inset="true" style="min-width:210px;" data-theme="b">
-					<li data-role="divider" id="titoloDialog" data-theme="a">Options</li>
-					<li><a href="#">Mark as unread</a></li>
-					<li><a href="#" id="facebookShare" >Share on Facebook</a></li>
-					<li><a href="#" id="twitterShare">Share on Twitter</a></li>
-                    <li><a href="#" id="emailShare">Email</a></li>
-				</ul>
-		      </div>
+            
+            <div data-role="popup" id="labelPopup" >
+	           <ul data-role="listview" data-inset="true" style="min-width:210px;" id="labelsListView">
+					<li data-role="divider" id="titoloDialog" data-theme="a">Labels</li>
+                   <li><a href="#" onclick="setArticleLabel(0)"  data-rel="popup" data-position-to="window" data-transition="slidedown">No Label</a></li>
+                   
+                </ul>
+                 
+            </div>
+            
+            
+            
 
             
             

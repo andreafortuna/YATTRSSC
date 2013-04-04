@@ -1,5 +1,18 @@
 <div data-role="page" id="MainPage" class="type-home">
+    
+    
+             <div data-role="panel" id="popupMenu" data-position="right" data-display="overlay" data-theme="a">
+				<a href="#popupDialog" data-role="button" data-rel="popup" data-position-to="window" id="unSubscribe" data-transition="slidedown">Unsubscribe</a></li>
+        </div>
+
+    
+    
 <script>
+function unSubscribeFeed() {
+    unSubscribe(sessionStorage.URL, sessionStorage.session_id, sessionStorage.feedID);
+    $.mobile.changePage("feeds.html");
+}
+    
 function local_pageinit() {
     //alert(sessionStorage.feedID);
     
@@ -7,36 +20,46 @@ function local_pageinit() {
     
     $('#dettaglioTitoloFeed').text(sessionStorage.feedTitle);
     
-     
         var articles =  getArticles(sessionStorage.URL, sessionStorage.session_id, sessionStorage.feedID);
         
         var list = $('#articlesListView');
          $.each(articles, function() {
             //alert(this.id + " " + this.title);
-            if (this.id != "")  list.append("<li><a style='white-space : normal;' href='articolo.html'  onclick=\"sessionStorage.articleID='" + this.id + "'\">" + this.title + "<p style='margin:5px;'>" + timeConverter(this.updated) + "</p></a></li>");
+            if (this.id != "")  list.append("<li><a data-transition=\"flip\" style='white-space : normal;" + ((this.unread === true) ?  "font-style:normal;": "font-size:0.8em;color:#888") + "' href='articolo.html'  onclick=\"sessionStorage.articleID='" + this.id + "'\">" + this.title + "<p style='margin:5px;'>" + timeConverter(this.updated) + "</p></a></li>");
 					
         });
         
-    //list.listview("refresh");
     
     
 }
 </script>
     <div data-role="header" data-position="fixed">
-	<a href="feeds.html" data-icon="back">Back</a>
+	<a href="feeds.html"  data-transition="slide" data-direction="reverse" data-icon="back">Back</a>
 	<h1 id="dettaglioTitoloFeed">Details</h1>
-	<a href="#popupMenu" data-icon="check" data-rel="popup" id="acquistaHeader">Options</a>
+        
+<a href="#popupMenu" data-icon="bars" class="jqm-navmenu-link" data-iconpos="notext">Options</a>        
+	
 </div>
 
 	<div data-role="content">
     
 
-    		<div data-role="popup" id="popupMenu" data-theme="a">
-				<ul data-role="listview" data-inset="true" style="min-width:210px;" data-theme="b">
-					<li data-role="divider" id="titoloDialog" data-theme="a">Options</li>
-					<li><a href="share.html">Mark all as read</a></li>
-				</ul>
-		</div>
+
+    
+
+    
+    
+<div data-role="popup" id="popupDialog" data-overlay-theme="a" data-theme="c" data-dismissible="false" style="max-width:400px;" class="ui-corner-all">
+    <div data-role="header" data-theme="a" class="ui-corner-top">
+        <h1>Unsubscribe feed?</h1>
+    </div>
+    <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+        <h3 class="ui-title">Are you sure?</h3>
+        <p>This action cannot be undone.</p>
+        <a href="#" data-role="button" data-inline="true" data-rel="back" data-theme="c">Cancel</a>
+        <a href="#" data-role="button" data-inline="true" data-transition="flow" data-theme="b" onclick="unSubscribeFeed();">Unsubscribe</a>
+    </div>
+</div>
     
 		
 

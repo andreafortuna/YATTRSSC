@@ -4,6 +4,8 @@
     id        = "org.andreafortuna.yattrssc"
     version   = "0.0.1">
 
+<preference name="" value="1.8.1" />
+    
 <name>YATTRSSC</name>
 
 <description>
@@ -15,16 +17,26 @@ Andrea Fortuna
 </author>
 
 <preference name="stay-in-webview" value="false" /> 
+<access origin="*" />
     
-    <icon src="Icon.png" />
-<icon src="icons/ios/Icon.png" width="57" height="57" />
-<icon src="icons/ios/Icon72.png" gap:platform="ios" width="72" height="72" />
-<icon src="icons/ios/Icon2x.png" gap:platform="ios" width="114" height="114" />
+<icon src="icon.png" />
+    
+<preference name="target-device" value="universal" /> 
 
-<icon src="icons/android/ldpi.png" gap:platform="android" gap:density="ldpi" />
-<icon src="icons/android/mdpi.png" gap:platform="android" gap:density="mdpi" />
-<icon src="icons/android/hdpi.png" gap:platform="android" gap:density="hdpi" />
-<icon src="icons/android/xhdpi.png" gap:platform="android" gap:density="xhdpi" />
+<icon src="icon.png" /> 
+    
+
+<icon src="icons/ios/icon.png" width="57" height="57" />
+<icon src="icons/ios/icon-72.png" width="72" height="72" />
+<icon src="icons/ios/Icon@2x" width="144" height="144" gap:platform="ios" />
+<icon src="icons/ios/icon-72@2x.png" width="144" height="144" />
+
+    
+    
+<icon src="icons/android/Icon.png" gap:platform="android" gap:density="ldpi" />
+<icon src="icons/android/Icon.png" gap:platform="android" gap:density="mdpi" />
+<icon src="icons/android/Icon.png" gap:platform="android" gap:density="hdpi" />
+<icon src="icons/android/Icon.png" gap:platform="android" gap:density="xhdpi" />
 
 <icon src="icons/bb/icon.png" gap:platform="blackberry" />
         

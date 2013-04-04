@@ -21,7 +21,7 @@ function local_pageinit() {
     <div data-role="header" >
 	
 	<h1 id="dettaglioTitoloFeed">Account</h1>
-	<a href="" data-icon="check" id="acquistaHeader" onclick="salva();">Save</a>
+	<a href="" data-icon="check" data-transition="flip" onclick="salva();">Save</a>
 </div>
 
 	<div data-role="content">
@@ -33,11 +33,11 @@ function local_pageinit() {
 
 		<div style="margin:10px;">
         
-        
+<h3>Tiny Tiny RSS Account Configuration</h3>        
         
 
 <label for="basic">URL:</label>
-<input type="text" name="URL" id="URL" data-mini="true" />                      
+<input type="url" data-clear-btn="true" name="URL" id="URL" data-mini="true" />                      
             
 
 <label for="basic">Username:</label>
@@ -46,6 +46,7 @@ function local_pageinit() {
 <label for="basic">Password:</label>
 <input type="password" name="password" id="password" data-mini="true" />              
 
+<p>Do not you have your own instance of Tiny Tiny RSS? Create an account <a href="#" onclick="window.open('http://reader.andreafortuna.org/register.php', '_system');">http://reader.andreafortuna.org</a></p>
             
         </div><!--/content-primary-->
 
