@@ -10,7 +10,7 @@ function global_pageinit() {
 	$.mobile.buttonMarkup.hoverDelay = 0;
     
     
-	var version = "0.0.1 Beta",
+	var version = "0.0.2 Beta",
 	foothtml = "Version " + version,
 	cright = "&copy; 2013 Andrea Fortuna";
 
@@ -47,7 +47,6 @@ function timeConverter(UNIX_timestamp){
 
    function caricaCategorie() {
        
-       
        $.mobile.loading('show', {text:"Updating..."});
        
          sessionStorage.URL = localStorage.URL;
@@ -58,20 +57,53 @@ function timeConverter(UNIX_timestamp){
             $.mobile.changePage("account.html", null, true, true);
         }
             
-        //alert(session_id);
-        var categorie =  getCategories(sessionStorage.URL, sessionStorage.session_id);
-        
-        var list = $('#categorieListView');
-       //Svuoto categorie
-       list.empty();
-       list.append("<li data-role=\"list-divider\">Categories</li>");
-         $.each(categorie, function() {
-            //alert(this.id + " " + this.title);
-            if (this.unread > 0) list.append("<li><a data-transition=\"slide\" href='feeds.html'  onclick=\"sessionStorage.catID='" + this.id + "';sessionStorage.catTitle='" + this.title + "'\">" + this.title + "</h4></a><span class=\"ui-li-count\">" + this.unread + "</span></li>");
-					
-        });
-        list.listview("refresh");
+       // var categorie =  getCategories(sessionStorage.URL, sessionStorage.session_id);
+                  
+       getCategoriesA(sessionStorage.URL, sessionStorage.session_id, function(categorie) {
+            var list = $('#categorieListView');
+           //Svuoto categorie
+           list.empty();
+           list.append("<li data-role=\"list-divider\">Categories</li>");
+             $.each(categorie, function() {
+                if (this.unread > 0) list.append("<li><a data-transition=\"slide\" href='feeds.html'  onclick=\"sessionStorage.catID='" + this.id + "';sessionStorage.catTitle='" + this.title + "'\">" + this.title + "</h4></a><span class=\"ui-li-count\">" + this.unread + "</span></li>");
+                        
+            });
+            list.listview("refresh");    
+       });
+       
+       
+       
        
        $.mobile.loading('hide');
        
         }
+
+function caricaFeeds() {
+        getFeedsA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.catID, function(feeds) {
+            var list = $('#feedsListView');
+             list.empty();
+             $.each(feeds, function() {            
+                if (this.id != "")  list.append("<li><a data-transition=\"slide\" href='dettaglio.html'  onclick=\"sessionStorage.feedID='" + this.id + "';sessionStorage.feedTitle='" + this.title + "'\">" + this.title + "</h4></a><span class=\"ui-li-count\">" + this.unread + "</span></li>");                        
+             });
+            list.listview("refresh");
+        });
+}
+
+
+
+function caricaArticoli() {
+        $('#dettaglioTitoloFeed').text(sessionStorage.feedTitle);
+        getArticlesA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.feedID, function(articles) {
+            //alert(articles);
+            var list = $('#articlesListView');
+             list.empty();
+             $.each(articles, function() {                     
+                if (this.id != "") list.append("<li><a data-transition=\"flip\" style='white-space : normal;" + ((this.unread === true) ?  "font-style:normal;": "font-size:0.8em;color:#888") + "' href='articolo.html'  onclick=\"sessionStorage.articleID='" + this.id + "'\">" + this.title + "<p style='margin:5px;'>" + timeConverter(this.updated) + "</p></a></li>");
+			
+             });
+            list.listview("refresh");            
+        });
+}
+
+function caricaArticolo() {
+}

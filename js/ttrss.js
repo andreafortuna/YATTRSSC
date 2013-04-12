@@ -75,6 +75,39 @@ function getCategories(url, session_id) {
     return categorie;
 }
 
+function getCategoriesA(url, session_id, funzione) {
+    //var categorie = "";
+    var data = {
+        op: "getCategories",
+        sid: session_id
+    };
+            
+      $.ajax({
+          type: "POST",
+          url: url + "/api/",
+          contentType: "application/json",
+          data: JSON.stringify(data),
+          dataType: "json",
+          async:true,
+          success: function(data)
+          {
+            //$("#risultato").html(msg);
+              //alert( data.content);
+              //categorie= data.content;
+                // $.each(data.content, function() {
+                    //alert(this.id + " " + this.title);
+                //});
+              funzione(data.content);
+          },
+          error: function()
+          {
+            //alert("Errore di rete");
+          }
+      });
+    //return categorie;
+}
+
+
 
 function getLabels(url, session_id) {
     var labels = "";
@@ -106,6 +139,40 @@ function getLabels(url, session_id) {
       });
     return labels;
 }
+
+
+function getLabelsA(url, session_id, funzione) {
+    
+    var data = {
+        op: "getLabels",
+        sid: session_id
+    };
+            
+      $.ajax({
+          type: "POST",
+          url: url + "/api/",
+          contentType: "application/json",
+          data: JSON.stringify(data),
+          dataType: "json",
+          async:true,
+          success: function(data)
+          {
+            //$("#risultato").html(msg);
+              //alert( data.content);
+              //labels= data.content;
+                /* $.each(data.content, function() {
+                    alert(this.id + " " + this.caption);
+                });*/
+              funzione(data.content);
+          },
+          error: function()
+          {
+            //alert("Errore di rete");
+          }
+      });
+    
+}
+
 
 
 function removeArticleLabels(url, session_id, article_id) {
@@ -142,6 +209,42 @@ function removeArticleLabels(url, session_id, article_id) {
 }
 
 
+function removeArticleLabelsA(url, session_id, article_id, funzione) {
+    var labels = "";
+    var data = {
+        op: "getLabels",
+        sid: session_id,
+        article_id: article_id
+    };
+            
+      $.ajax({
+          type: "POST",
+          url: url + "/api/",
+          contentType: "application/json",
+          data: JSON.stringify(data),
+          dataType: "json",
+          async:true,
+          success: function(data)
+          {
+            //$("#risultato").html(msg);
+              //alert( data.content);
+              
+                $.each(data.content, function() {
+                    //alert(this.id + " " + this.caption);
+                    removeLabelA(url, session_id,article_id,this.id, function(){});
+                });
+                funzione();
+          },
+          error: function()
+          {
+            //alert("Errore di rete");
+          }
+      });
+    return labels;
+}
+
+
+
 function getFeeds(url, session_id, cat_id) {
     var feeds = "";
     var data = {
@@ -169,6 +272,38 @@ function getFeeds(url, session_id, cat_id) {
                 /* $.each(data.content, function() {
                     alert(this.id + " " + this.title);
                 });*/
+          },
+          error: function()
+          {
+            alert("Network Error, Please Check Network");
+          }
+      });
+    return feeds;
+}
+
+
+function getFeedsA(url, session_id, cat_id, funzione) {
+    var feeds = "";
+    var data = {
+        op: "getFeeds",
+        sid: session_id,
+        cat_id: cat_id,
+        unread_only: false,
+        limit: 0,
+        offset: 0,
+        include_nested: false
+    };
+            
+      $.ajax({
+          type: "POST",
+          url: url + "/api/",
+          contentType: "application/json",
+          data: JSON.stringify(data),
+          dataType: "json",
+          async:true,
+          success: function(data)
+          {
+              funzione(data.content);
           },
           error: function()
           {
@@ -223,6 +358,49 @@ function getArticles(url, session_id, feed_id) {
 }
 
 
+function getArticlesA(url, session_id, feed_id, funzione) {
+    var data = {
+        op: "getHeadlines",
+        sid: session_id,
+        feed_id: feed_id,
+        is_cat:false,
+        show_excerpt:true,
+        show_content:false,
+        view_mode: "all_articles",
+        include_attachments:false,
+        since_id:0,
+        limit: 30,
+        skip: 0,
+        include_nested: false
+    };
+            
+      $.ajax({
+          type: "POST",
+          url: url + "/api/",
+          contentType: "application/json",
+          data: JSON.stringify(data),
+          dataType: "json",
+          async:true,
+          success: function(data)
+          {
+            //$("#risultato").html(msg);
+              //alert( data.content.error);
+              //articles= data.content;
+                 //$.each(data.content, function() {
+                //    alert(this.id + " " + this.title);
+                //});
+              
+              funzione(data.content);
+          },
+          error: function()
+          {
+            alert("Network Error, Please Check Network");
+          }
+      });
+}
+
+
+
 function getArticle(url, session_id, article_id) {
     var article = "";
     var data = {
@@ -256,6 +434,43 @@ function getArticle(url, session_id, article_id) {
     return article;
 }
 
+
+function getArticleA(url, session_id, article_id, funzione) {
+    var article = "";
+    var data = {
+        op: "getArticle",
+        sid: session_id,
+        article_id: article_id
+    };
+            
+      $.ajax({
+          type: "POST",
+          url: url + "/api/",
+          contentType: "application/json",
+          data: JSON.stringify(data),
+          dataType: "json",
+          async:true,
+          success: function(data)
+          {
+            //$("#risultato").html(msg);
+              //alert( data.content);
+              //article= data.content;
+                $.each(data.content, function() {
+                    //alert(this.id + " " + this.title);
+                    //article= this;
+                    funzione (this);
+                });
+          },
+          error: function()
+          {
+            alert("Network Error, Please Check Network");
+          }
+      });
+    return article;
+}
+
+
+
 function setRead(url, session_id, article_id) {
     var article = "";
     var data = {
@@ -286,6 +501,39 @@ function setRead(url, session_id, article_id) {
       });
     return article;
 }
+
+function setReadA(url, session_id, article_id, funzione) {
+    var article = "";
+    var data = {
+        op: "updateArticle",
+        sid: session_id,
+        article_ids: article_id,
+        mode:0,
+        field:2
+    };
+            
+      $.ajax({
+          type: "POST",
+          url: url + "/api/",
+          contentType: "application/json",
+          data: JSON.stringify(data),
+          dataType: "json",
+          async:true,
+          success: function(data)
+          {
+            //$("#risultato").html(msg);
+             //alert(data.content.status);
+              //article= data.content;
+              funzione();
+          },
+          error: function()
+          {
+            alert("Network Error, Please Check Network");
+          }
+      });
+    return article;
+}
+
 
 
 function setLabel(url, session_id, article_id, label_id) {
@@ -321,6 +569,41 @@ function setLabel(url, session_id, article_id, label_id) {
     return article;
 }
 
+function setLabelA(url, session_id, article_id, label_id, funzione) {
+    
+    var data = {
+        op: "setArticleLabel",
+        sid: session_id,
+        article_ids: article_id,
+        label_id: label_id,
+        assign:true,
+        mode:0,
+        field:2
+    };
+            
+      $.ajax({
+          type: "POST",
+          url: url + "/api/",
+          contentType: "application/json",
+          data: JSON.stringify(data),
+          dataType: "json",
+          async:true,
+          success: function(data)
+          {
+            //$("#risultato").html(msg);
+             //alert(data.content.status);
+              //article= data.content;
+              funzione();
+          },
+          error: function()
+          {
+            alert("Network Error, Please Check Network");
+          }
+      });
+    return article;
+}
+
+
 function removeLabel(url, session_id, article_id, label_id) {
     var article = "";
     var data = {
@@ -354,6 +637,39 @@ function removeLabel(url, session_id, article_id, label_id) {
     return article;
 }
 
+function removeLabelA(url, session_id, article_id, label_id, funzione) {
+    var data = {
+        op: "setArticleLabel",
+        sid: session_id,
+        article_ids: article_id,
+        label_id: label_id,
+        assign:false,
+        mode:0,
+        field:2
+    };
+            
+      $.ajax({
+          type: "POST",
+          url: url + "/api/",
+          contentType: "application/json",
+          data: JSON.stringify(data),
+          dataType: "json",
+          async:true,
+          success: function(data)
+          {
+            //$("#risultato").html(msg);
+             //alert(data.content.status);
+              //article= data.content;
+              funzione();
+          },
+          error: function()
+          {
+            alert("Network Error, Please Check Network");
+          }
+      });
+
+}
+
 
 function setUnRead(url, session_id, article_id) {
     var article = "";
@@ -377,6 +693,38 @@ function setUnRead(url, session_id, article_id) {
             //$("#risultato").html(msg);
              // alert(data.status);
               //article= data.content;
+          },
+          error: function()
+          {
+            alert("Network Error, Please Check Network");
+          }
+      });
+    return article;
+}
+
+function setUnReadA(url, session_id, article_id, funzione) {
+    var article = "";
+    var data = {
+        op: "updateArticle",
+        sid: session_id,
+        article_ids: article_id,
+        mode:1,
+        field:2
+    };
+            
+      $.ajax({
+          type: "POST",
+          url: url + "/api/",
+          contentType: "application/json",
+          data: JSON.stringify(data),
+          dataType: "json",
+          async:true,
+          success: function(data)
+          {
+            //$("#risultato").html(msg);
+             // alert(data.status);
+              //article= data.content;
+              funzione();
           },
           error: function()
           {
@@ -417,6 +765,39 @@ function addStar(url, session_id, article_id) {
       });
     return article;
 }
+
+function addStarA(url, session_id, article_id, funzione) {
+    var article = "";
+    var data = {
+        op: "updateArticle",
+        sid: session_id,
+        article_ids: article_id,
+        mode:1,
+        field:0
+    };
+            
+      $.ajax({
+          type: "POST",
+          url: url + "/api/",
+          contentType: "application/json",
+          data: JSON.stringify(data),
+          dataType: "json",
+          async:true,
+          success: function(data)
+          {
+            //$("#risultato").html(msg);
+              //alert(data.content.status);
+              //article= data.content;
+              funzione();
+          },
+          error: function()
+          {
+            alert("Network Error, Please Check Network");
+          }
+      });
+    return article;
+}
+
 
 
 function subscribe(url, session_id, feedurl, categoryID) {

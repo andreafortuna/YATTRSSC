@@ -16,20 +16,9 @@ function unSubscribeFeed() {
 function local_pageinit() {
     //alert(sessionStorage.feedID);
     
-    
-    
-    $('#dettaglioTitoloFeed').text(sessionStorage.feedTitle);
-    
-        var articles =  getArticles(sessionStorage.URL, sessionStorage.session_id, sessionStorage.feedID);
+
         
-        var list = $('#articlesListView');
-         $.each(articles, function() {
-            //alert(this.id + " " + this.title);
-            if (this.id != "")  list.append("<li><a data-transition=\"flip\" style='white-space : normal;" + ((this.unread === true) ?  "font-style:normal;": "font-size:0.8em;color:#888") + "' href='articolo.html'  onclick=\"sessionStorage.articleID='" + this.id + "'\">" + this.title + "<p style='margin:5px;'>" + timeConverter(this.updated) + "</p></a></li>");
-					
-        });
-        
-    
+    caricaArticoli();
     
 }
 </script>

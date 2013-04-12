@@ -2,9 +2,8 @@
 <widget xmlns = "http://www.w3.org/ns/widgets"
     xmlns:gap = "http://phonegap.com/ns/1.0"
     id        = "org.andreafortuna.yattrssc"
-    version   = "0.0.1">
+    version   = "0.0.2">
 
-<preference name="" value="1.8.1" />
     
 <name>YATTRSSC</name>
 
@@ -27,9 +26,9 @@ Andrea Fortuna
     
 
 <icon src="icons/ios/icon.png" width="57" height="57" />
-<icon src="icons/ios/icon-72.png" width="72" height="72" />
-<icon src="icons/ios/Icon@2x" width="144" height="144" gap:platform="ios" />
-<icon src="icons/ios/icon-72@2x.png" width="144" height="144" />
+<icon src="icons/ios/icon-72.png" width="72" height="72" gap:platform="ios"/>
+<icon src="icons/ios/Icon@2x" width="114" height="114" />
+<icon src="icons/ios/icon-72@2x.png" width="144" height="144" gap:platform="ios" />
 
     
     

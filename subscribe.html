@@ -20,13 +20,18 @@ function local_pageinit() {
     //CARICO CATEGORIE
     
         //alert(session_id);
-        var categorie =  getCategories(sessionStorage.URL, sessionStorage.session_id);
-        
-        var list = $('#categorie-select-choice');
-        $.each(categorie, function() {
-           list.append("<option value='" + this.id + "'>" + this.title +  "</option>");
+        //var categorie =  getCategories(sessionStorage.URL, sessionStorage.session_id);
+        getCategoriesA(sessionStorage.URL, sessionStorage.session_id, function(categorie) {
+            var list = $('#categorie-select-choice');
+            var primo=1;
+            $.each(categorie, function() {
+                list.append("<option value='" + this.id + "' " + ((primo==1) ? " selected " : "")  + ">" + this.title +  "</option>");
+                primo=0;
+            });
+            list.listview("refresh");
         });
-        //list.listview("refresh");
+        
+        
     
     
 }    

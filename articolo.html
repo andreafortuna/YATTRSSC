@@ -17,11 +17,15 @@
     function setArticleLabel(id, title) {
         $("#labelPopup").popup("close");
         if (id=="0") {
-            removeArticleLabels(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID);
-            toast("All labels removed");
+            removeArticleLabelsA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID, function() {
+                toast("All labels removed");
+            });
+            
         } else {
-            setLabel(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID, id);
-            toast("Added label " + title);
+            setLabelA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID, id, function() {
+                toast("Added label " + title);
+            });
+            
         }  
         
         
@@ -31,34 +35,42 @@
 function local_pageinit() {
     /******** CARICO LABELS **************/
     //var list = $('#labelsListView');
-    var labels =  getLabels(sessionStorage.URL, sessionStorage.session_id);
-     $.each(labels, function() {
-        //alert(this.id + " " + this.caption);
-        $('#labelsListView').append("<li><a href=\"#labelOKPopup\" data-rel=\"popup\" data-position-to=\"window\"  onclick=\"setArticleLabel('" + this.id + "','" + this.caption + "');\">" + this.caption + "</a></li>");     
-     });
-    //$('#labelsListView').listview("refresh");
+    //var labels =  getLabels(sessionStorage.URL, sessionStorage.session_id);
+    getLabelsA(sessionStorage.URL, sessionStorage.session_id, function(labels) {
+        $.each(labels, function() {
+            //alert(this.id + " " + this.caption);
+            $('#labelsListView').append("<li><a href=\"#labelOKPopup\" data-rel=\"popup\" data-position-to=\"window\"  onclick=\"setArticleLabel('" + this.id + "','" + this.caption + "');\">" + this.caption + "</a></li>");     
+         });
+        $('#labelsListView').listview("refresh");
+    }); 
+    
+    
 
     /*************************************/
     
     
-    var article =  getArticle(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID);
-    $('#dettaglioTitoloArticolo').text(sessionStorage.feedTitle);
-    sessionStorage.articleTitle = article.title;
-    sessionStorage.articleLink = article.link;
+    //var article =  getArticle(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID);
     
-    //$('#dettaglioTitoloArticolo2').html("<a href='#' onclick=\"window.open('" + encodeURIComponent(article.link)  + "', '_system');\">" + article.title + "</a>");
-    //$('#dettaglioTitoloArticolo2').html("<a href='#' onclick=\"window.open('" + article.link  + "', '_system');\">" + article.title + "</a>");
-    $('#dettaglioTitoloArticolo2').html(article.title);
-    $('#dettaglioDataArticolo').text(timeConverter(article.updated));
-    //Rimuovo anchor
+    getArticleA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID, function(article) {
+        $('#dettaglioTitoloArticolo').text(sessionStorage.feedTitle);
+        sessionStorage.articleTitle = article.title;
+        sessionStorage.articleLink = article.link;
+        
+        //$('#dettaglioTitoloArticolo2').html("<a href='#' onclick=\"window.open('" + encodeURIComponent(article.link)  + "', '_system');\">" + article.title + "</a>");
+        //$('#dettaglioTitoloArticolo2').html("<a href='#' onclick=\"window.open('" + article.link  + "', '_system');\">" + article.title + "</a>");
+        $('#dettaglioTitoloArticolo2').html(article.title);
+        $('#dettaglioDataArticolo').text(timeConverter(article.updated));
+        //Rimuovo anchor
+        
+         var content = $('<div>' + article.content + '</div>');
+         content.find('a').replaceWith(function() { return this.childNodes; });
+        var newHtml = content.html();
+        $('#contenutoArticolo').html(newHtml);            
+    });
     
-     var content = $('<div>' + article.content + '</div>');
-     content.find('a').replaceWith(function() { return this.childNodes; });
-    var newHtml = content.html();
-    $('#contenutoArticolo').html(newHtml);
     
     //Setto a 'letto'
-    setRead(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID);
+    setReadA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID, function(){});
     
     
     
@@ -77,13 +89,16 @@ function local_pageinit() {
     });*/
     
    $('#markUnread').click(function() {
-      setUnRead(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID);
-       toast("Marked as 'unread'");
+      setUnReadA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID, function() {
+         toast("Marked as 'unread'");
+      });
+      
    });
        
    $('#addStar').click(function() {
-      addStar(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID);
-     toast("Star added");                
+      addStarA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID, function(){
+        toast("Star added");                
+      });
    });
     
     
