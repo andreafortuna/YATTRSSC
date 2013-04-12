@@ -79,7 +79,8 @@ function getCategoriesA(url, session_id, funzione) {
     //var categorie = "";
     var data = {
         op: "getCategories",
-        sid: session_id
+        sid: session_id,
+        unread_only:false
     };
             
       $.ajax({
@@ -288,7 +289,7 @@ function getFeedsA(url, session_id, cat_id, funzione) {
         op: "getFeeds",
         sid: session_id,
         cat_id: cat_id,
-        unread_only: false,
+        unread_only: localStorage.unread,
         limit: 0,
         offset: 0,
         include_nested: false
@@ -359,6 +360,14 @@ function getArticles(url, session_id, feed_id) {
 
 
 function getArticlesA(url, session_id, feed_id, funzione) {
+    var v_mode = "" 
+    
+    if (localStorage.unread=="true") {
+        v_mode="unread";
+    } else {
+        v_mode="all_articles";
+    }
+    
     var data = {
         op: "getHeadlines",
         sid: session_id,
@@ -366,7 +375,7 @@ function getArticlesA(url, session_id, feed_id, funzione) {
         is_cat:false,
         show_excerpt:true,
         show_content:false,
-        view_mode: "all_articles",
+        view_mode: v_mode  ,
         include_attachments:false,
         since_id:0,
         limit: 30,
@@ -533,6 +542,37 @@ function setReadA(url, session_id, article_id, funzione) {
       });
     return article;
 }
+
+function setAllReadA(url, session_id, feed_id, funzione) {
+    var article = "";
+    var data = {
+        op: "catchupFeed",
+        sid: session_id,
+        feed_id: feed_id,
+    };
+            
+      $.ajax({
+          type: "POST",
+          url: url + "/api/",
+          contentType: "application/json",
+          data: JSON.stringify(data),
+          dataType: "json",
+          async:true,
+          success: function(data)
+          {
+            //$("#risultato").html(msg);
+             //alert(data.content.status);
+              //article= data.content;
+              funzione(data.content.status);
+          },
+          error: function()
+          {
+            alert("Network Error, Please Check Network");
+          }
+      });
+    return article;
+}
+
 
 
 
@@ -821,6 +861,38 @@ function subscribe(url, session_id, feedurl, categoryID) {
             //$("#risultato").html(msg);
               //alert(data.content.status);
               esito = data.content.status;
+              //article= data.content;
+          },
+          error: function()
+          {
+            alert("Network Error, Please Check Network");
+          }
+      });
+    return esito;
+}
+
+function subscribeA(url, session_id, feedurl, categoryID, funzione) {
+    var esito = "";
+    var data = {
+        op: "subscribeToFeed",
+        sid: session_id,
+        feed_url: feedurl,
+        category_id:categoryID
+    };
+            
+      $.ajax({
+          type: "POST",
+          url: url + "/api/",
+          contentType: "application/json",
+          data: JSON.stringify(data),
+          dataType: "json",
+          async:true,
+          success: function(data)
+          {
+            //$("#risultato").html(msg);
+              //alert(data.content.status);
+              funzione(data.content.status);
+              //esito = data.content.status;
               //article= data.content;
           },
           error: function()

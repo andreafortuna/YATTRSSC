@@ -4,15 +4,18 @@ function salva() {
     var feedurl = $("#URL").val();
     var categoryID = $("#categorie-select-choice").val();
     //alert(feedurl +  " - " + categoryID);
-     var esito = subscribe(sessionStorage.URL, sessionStorage.session_id, feedurl, categoryID);
-    if (esito.code > "1") {
-        if (esito.code=="5") toast("Invalid URL!");
-        if (esito.code=="3" || esito.code=="4") toast("No RSS feed found!");
-    } else {
-        toast("Feed added!");
-        $.mobile.changePage("index.html");
-        caricaCategorie();
-    }
+     //var esito = subscribe(sessionStorage.URL, sessionStorage.session_id, feedurl, categoryID);
+    subscribeA(sessionStorage.URL, sessionStorage.session_id, feedurl, categoryID, function(esito) {
+        if (esito.code > "1") {
+            if (esito.code=="5") toast("Invalid URL!");
+            if (esito.code=="3" || esito.code=="4") toast("No RSS feed found!");
+        } else {
+            toast("Feed added!");
+            $.mobile.changePage("index.html");
+            caricaCategorie();
+        }
+    });
+    
 }
 
 function local_pageinit() {
@@ -37,11 +40,11 @@ function local_pageinit() {
 }    
     
 </script>
-    <div data-role="header" >
+    <div data-role="header" data-theme="c">
 	
-	<h1 id="dettaglioTitoloFeed">Account</h1>
-	<a href="" data-icon="check" id="acquistaHeader" onclick="salva();">Subscribe</a>
-    <a href="index.html" data-icon="delete" >Cancel</a>
+	<h1 id="dettaglioTitoloFeed">Subscribe</h1>
+	<a href="" data-icon="check" id="acquistaHeader" onclick="salva();" class="show-page-loading-msg"  data-textonly="false" data-textvisible="true" data-msgtext="Subscribing...">Subscribe</a>
+    <a href="index.html" data-icon="delete" data-transition="flip">Cancel</a>
 </div>
 
 	<div data-role="content">

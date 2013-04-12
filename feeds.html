@@ -1,7 +1,29 @@
 <div data-role="page" id="MainPage" class="type-home">
-    
-     <div data-role="panel" id="popupMenu" data-position="right" data-display="overlay" data-theme="a">
-                <a href="#" data-role="button"  onclick="caricaFeeds();" data-rel="close">Refresh</a>
+
+     <div data-role="panel" id="popupMenu" data-position="right" data-display="push" data-theme="a">
+                
+                <style> 
+                    .unreadSwitch .ui-slider-switch {width:240px;}
+                </style>
+                <div class="unreadSwitch">                    
+                    <select name="flip-unread" id="flip-unread" data-role="slider" >
+                        <option value="true">Show Unread</option>
+                        <option value="false">Show All</option>
+                    </select>
+                </div>
+                <script>
+                    $("#flip-unread").slider({
+                        start: function(event,ui) {
+                            //alert($("#flip-unread").val());
+                            localStorage.unread = $("#flip-unread").val();
+                            caricaFeeds();
+                            setTimeout(function() {$('#popupMenu').panel('close')},500);
+                        }
+                    });
+                </script>
+         
+         
+                <a href="#" data-role="button"  onclick="caricaFeeds();" data-rel="close" data-icon="refresh">Refresh</a>
         </div>
     
 <script>
@@ -11,14 +33,13 @@ function local_pageinit() {
     
     
     $('#dettaglioTitolo').text(sessionStorage.catTitle);
-    
-    
     caricaFeeds();
+    $("#flip-unread").val(localStorage.unread).slider("refresh");
     
 }
 </script>
-    <div data-role="header" data-position="fixed">
-	<a href="index.html" data-transition="slide" data-direction="reverse" data-icon="back">Back</a>
+    <div data-role="header" data-position="fixed" data-theme="c">
+	<a href="index.html" data-transition="slide" onclick="caricaCategorie();" data-direction="reverse" data-icon="back">Back</a>
 	<h1 id="dettaglioTitolo">Details</h1>
 	<a href="#popupMenu" data-icon="bars" class="jqm-navmenu-link" data-iconpos="notext">Options</a>        
 </div>

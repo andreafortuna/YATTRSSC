@@ -82,7 +82,17 @@ dt code, dd code { font-size:1.3em; line-height:150%; }
 pre { white-space: pre; white-space: pre-wrap; word-wrap: break-word; }
 strong { font-weight: bold; }
 
-#jqm-homeheader img { width: 275px; height: 78px; margin-top:-20px; }
+
+/* portrait */
+@media screen and (orientation:portrait) {
+	#jqm-homeheader img { width: 275px; height: 78px; margin-top:-70px; }
+}
+/* landscape */
+@media screen and (orientation:landscape) {
+    #jqm-homeheader img { width: 275px; height: 78px; }
+}
+
+
 img { max-width: 100%; }
 
 /* fluid images moved from jquery.mobile.core.css*/
@@ -278,7 +288,7 @@ dd h4 { margin:15px 0 0 0; }
 	.type-home .ui-content {
 		margin-top: 5px;
 	}
-	.ui-mobile #jqm-homeheader {
+   .ui-mobile #jqm-homeheader {
 		max-width: 340px;
 	}
 	p.intro {

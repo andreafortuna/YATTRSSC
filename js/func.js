@@ -1,8 +1,11 @@
 document.addEventListener("deviceready", global_pageinit);
 $("#MainPage").live('pageinit', global_pageinit);
 
-
-
+// Listen for orientation changes
+window.addEventListener("orientationchange", function() {
+	// Announce the new orientation number
+	alert(window.orientation);
+}, false);
 
 
 function global_pageinit() {
@@ -21,6 +24,7 @@ function global_pageinit() {
 	
 	
 	//local_pageinit();
+    if (typeof localStorage.unread === "undefined") localStorage.unread=false;
 	
 }
 
@@ -63,22 +67,28 @@ function timeConverter(UNIX_timestamp){
             var list = $('#categorieListView');
            //Svuoto categorie
            list.empty();
-           list.append("<li data-role=\"list-divider\">Categories</li>");
+           //list.append("<li data-role=\"list-divider\">Categories</li>");
+           list.append("<li data-theme='b'><a href='#'>Categories</a> <a href='#' onclick='caricaCategorie();'>refresh</a></li>");
+           //<a href='#' data-icon='refresh' data-iconpos='notext">Options</a>        
+              //list.listview("refresh");  
              $.each(categorie, function() {
-                if (this.unread > 0) list.append("<li><a data-transition=\"slide\" href='feeds.html'  onclick=\"sessionStorage.catID='" + this.id + "';sessionStorage.catTitle='" + this.title + "'\">" + this.title + "</h4></a><span class=\"ui-li-count\">" + this.unread + "</span></li>");
+                //if (this.unread > 0) 
+                    list.append("<li><a data-transition=\"slide\" href='feeds.html'  onclick=\"sessionStorage.catID='" + this.id + "';sessionStorage.catTitle='" + this.title + "'\">" + this.title + "</h4></a><span class=\"ui-li-count\">" + this.unread + "</span></li>");
                         
             });
             list.listview("refresh");    
+            $.mobile.loading('hide');
        });
        
        
        
        
-       $.mobile.loading('hide');
+      //
        
         }
 
 function caricaFeeds() {
+        $.mobile.loading('show', {text:"Updating..."});
         var list = $('#feedsListView');
         list.empty();
         getFeedsA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.catID, function(feeds) {
@@ -86,12 +96,14 @@ function caricaFeeds() {
                 if (this.id != "")  list.append("<li><a data-transition=\"slide\" href='dettaglio.html'  onclick=\"sessionStorage.feedID='" + this.id + "';sessionStorage.feedTitle='" + this.title + "'\">" + this.title + "</h4></a><span class=\"ui-li-count\">" + this.unread + "</span></li>");                        
              });
             list.listview("refresh");
+            $.mobile.loading('hide');
         });
 }
 
 
 
 function caricaArticoli() {
+        $.mobile.loading('show', {text:"Updating..."});
         $('#dettaglioTitoloFeed').text(sessionStorage.feedTitle);
         var list = $('#articlesListView');
         list.empty();
@@ -102,7 +114,8 @@ function caricaArticoli() {
                 if (this.id != "") list.append("<li><a data-transition=\"flip\" style='white-space : normal;" + ((this.unread === true) ?  "font-style:normal;": "font-size:0.8em;color:#888") + "' href='articolo.html'  onclick=\"sessionStorage.articleID='" + this.id + "'\">" + this.title + "<p style='margin:5px;'>" + timeConverter(this.updated) + "</p></a></li>");
 			
              });
-            list.listview("refresh");            
+            list.listview("refresh");
+            $.mobile.loading('hide');
         });
 }
 

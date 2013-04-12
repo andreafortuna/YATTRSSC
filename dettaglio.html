@@ -1,9 +1,36 @@
 <div data-role="page" id="MainPage" class="type-home">
     
     
-             <div data-role="panel" id="popupMenu" data-position="right" data-display="overlay" data-theme="a">
-                <a href="#" data-role="button"  onclick="caricaArticoli();" data-rel="close">Refresh</a>
-				<a href="#popupDialog" data-role="button" data-rel="popup" data-position-to="window" id="unSubscribe" data-transition="slidedown">Unsubscribe</a></li>
+             <div data-role="panel" id="popupMenu" data-position="right" data-display="push" data-theme="a">
+                 
+                 
+                 <style> 
+                    .unreadSwitch .ui-slider-switch {width:240px;}
+                </style>
+                <div class="unreadSwitch">                    
+                    <select name="flip-unreadA" id="flip-unreadA" data-role="slider" >
+                        <option value="true">Show Unread</option>
+                        <option value="false">Show All</option>
+                    </select>
+                </div>
+                <script>
+                    $("#flip-unreadA").slider({
+                        start: function(event,ui) {
+                            //alert($("#flip-unreadA").val());
+                            localStorage.unread = $("#flip-unreadA").val();
+                            caricaArticoli();
+                            setTimeout(function() {$('#popupMenu').panel('close')},500);
+                        }
+                    });
+                </script>
+                 
+                 
+                 
+                 
+                 
+                <a href="#" data-role="button"  onclick="caricaArticoli();" data-rel="close" data-icon="refresh">Refresh</a>
+                 <a href="#" data-role="button"  onclick="tuttiLetti();" data-rel="minus" data-rel="close" data-icon="refresh">Mark all as Read</a>
+				<a href="#popupDialog" data-role="button" data-rel="popup" data-icon="delete" data-position-to="window" id="unSubscribe" data-transition="slidedown">Unsubscribe</a></li>
         </div>
 
     
@@ -13,17 +40,26 @@ function unSubscribeFeed() {
     unSubscribe(sessionStorage.URL, sessionStorage.session_id, sessionStorage.feedID);
     $.mobile.changePage("feeds.html");
 }
+
+function tuttiLetti() {
+    setAllReadA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.feedID, function(esito) {
+        toast("All articles marked as Read");
+        caricaArticoli();
+        $('#popupMenu').panel('close');
+        //caricaCategorie();
+    }); 
+}
     
 function local_pageinit() {
-    //alert(sessionStorage.feedID);
-    
-
+   
+   
+$("#flip-unreadA").val(localStorage.unread).slider("refresh");
         
     caricaArticoli();
     
 }
 </script>
-    <div data-role="header" data-position="fixed">
+    <div data-role="header" data-position="fixed" data-theme="c">
 	<a href="feeds.html"  data-transition="slide" data-direction="reverse" data-icon="back">Back</a>
 	<h1 id="dettaglioTitoloFeed">Details</h1>
         
