@@ -79,9 +79,9 @@ function timeConverter(UNIX_timestamp){
         }
 
 function caricaFeeds() {
+        var list = $('#feedsListView');
+        list.empty();
         getFeedsA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.catID, function(feeds) {
-            var list = $('#feedsListView');
-             list.empty();
              $.each(feeds, function() {            
                 if (this.id != "")  list.append("<li><a data-transition=\"slide\" href='dettaglio.html'  onclick=\"sessionStorage.feedID='" + this.id + "';sessionStorage.feedTitle='" + this.title + "'\">" + this.title + "</h4></a><span class=\"ui-li-count\">" + this.unread + "</span></li>");                        
              });
@@ -93,10 +93,11 @@ function caricaFeeds() {
 
 function caricaArticoli() {
         $('#dettaglioTitoloFeed').text(sessionStorage.feedTitle);
+        var list = $('#articlesListView');
+        list.empty();
         getArticlesA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.feedID, function(articles) {
             //alert(articles);
-            var list = $('#articlesListView');
-             list.empty();
+
              $.each(articles, function() {                     
                 if (this.id != "") list.append("<li><a data-transition=\"flip\" style='white-space : normal;" + ((this.unread === true) ?  "font-style:normal;": "font-size:0.8em;color:#888") + "' href='articolo.html'  onclick=\"sessionStorage.articleID='" + this.id + "'\">" + this.title + "<p style='margin:5px;'>" + timeConverter(this.updated) + "</p></a></li>");
 			
