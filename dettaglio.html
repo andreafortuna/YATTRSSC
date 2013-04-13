@@ -15,7 +15,7 @@
                 </div>
                 <script>
                     $("#flip-unreadA").slider({
-                        start: function(event,ui) {
+                        stop: function(event,ui) {
                             //alert($("#flip-unreadA").val());
                             localStorage.unread = $("#flip-unreadA").val();
                             caricaArticoli();

@@ -13,7 +13,7 @@
                 </div>
                 <script>
                     $("#flip-unread").slider({
-                        start: function(event,ui) {
+                        stop: function(event,ui) {
                             //alert($("#flip-unread").val());
                             localStorage.unread = $("#flip-unread").val();
                             caricaFeeds();
