@@ -1,166 +1,226 @@
-<div data-role="page" id="MainPage" class="type-home">
-
-<div data-role="panel" id="popupMenu" data-position="right" data-display="push" data-theme="a">				
-    <a href="#popupMenu" data-icon="check" data-role="button" data-rel="close" data-rel="popup" data-position-to="window" id="markUnread" data-transition="slidedown">Mark as unread</a>
-    <a href="#popupMenu" data-icon="star" data-role="button" data-rel="close" data-rel="popup" data-position-to="window" id="addStar" data-transition="slidedown">Add Star</a>
-    <a href="#labelPopup" data-icon="edit" data-role="button" onclick="$('#popupMenu').panel('close');" data-rel="popup" id="addLabel" data-transition="slidedown">Add a Label</a>
-    <a href="#popupMenu" data-icon="forward" data-role="button" data-rel="close" id="facebookShare" >Share on Facebook</a>
-    <a href="#popupMenu" data-icon="forward" data-role="button" data-rel="close" id="twitterShare">Share on Twitter</a>                    
-    <a href="#popupMenu" data-icon="forward" data-role="button" data-rel="close" id="openBrowser">Open in browser</a>                    
-</div>
-
+<div data-role="page" id="articlePage" class="type-home">
+    
+    <div data-role="panel" id="popupMenu" data-position="right" data-display="push" data-theme="a">
+        <a href="#popupMenu" data-icon="check" data-role="button" data-rel="close" data-rel="popup" data-position-to="window" id="markUnread" data-transition="slidedown">Mark as unread</a>
+        <a href="#popupMenu" data-icon="star" data-role="button" data-rel="close" data-rel="popup" data-position-to="window" id="addStar" data-transition="slidedown">Add Star</a>
+        <a href="#labelPopup" data-icon="edit" data-role="button" onclick="$('#popupMenu').panel('close');" data-rel="popup" id="addLabel" data-transition="slidedown">Add a Label</a>
+        <a href="#popupMenu" data-icon="forward" data-role="button" data-rel="close" id="facebookShare" >Share on Facebook</a>
+        <a href="#popupMenu" data-icon="forward" data-role="button" data-rel="close" id="twitterShare">Share on Twitter</a>
+        <a href="#popupMenu" data-icon="forward" data-role="button" data-rel="close" id="openBrowser">Open in browser</a>
+    </div>
     
     
     
-<script>
     
-    function setArticleLabel(id, title) {
-        $("#labelPopup").popup("close");
-        if (id=="0") {
-            removeArticleLabelsA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID, function() {
-                toast("All labels removed");
-            });
+    <script>
+        
+        function setArticleLabel(id, title) {
+            $("#labelPopup").popup("close");
+            if (id=="0") {
+                removeArticleLabelsA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID, function() {
+                                     toast("All labels removed");
+                                     });
+                
+            } else {
+                setLabelA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID, id, function() {
+                          toast("Added label " + title);
+                          });
+                
+            }
+        }
+        
+        
+        function nextArticle(id) {
+            var trovato=0;
+            var precedente = 0;
+            var articles = JSON.parse(sessionStorage.AllArticles);
+            $.each(articles, function() {
+                   if (this.id != "") {
+                   if (precedente==id) trovato = this.id;
+                   precedente = this.id
+                   }
+                   });
+            return trovato;
+        }
+        
+        function prevArticle(id) {
+            var trovato=0;
+            var precedente = 0;
+            var articles = JSON.parse(sessionStorage.AllArticles);
+            $.each(articles, function() {
+                   if (this.id != "") {
+                   if (this.id==id) trovato = precedente;
+                   precedente = this.id;
+                   }
+                   });
+            return trovato;
+        }
+        
+        function local_pageinit() {
+            /******** CARICO LABELS **************/
+            //var list = $('#labelsListView');
+            //var labels =  getLabels(sessionStorage.URL, sessionStorage.session_id);
+            getLabelsA(sessionStorage.URL, sessionStorage.session_id, function(labels) {
+                       $.each(labels, function() {
+                              //alert(this.id + " " + this.caption);
+                              $('#labelsListView').append("<li><a href=\"#labelOKPopup\" data-rel=\"popup\" data-position-to=\"window\"  onclick=\"setArticleLabel('" + this.id + "','" + this.caption + "');\">" + this.caption + "</a></li>");
+                              });
+                       $('#labelsListView').listview("refresh");
+                       });
             
-        } else {
-            setLabelA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID, id, function() {
-                toast("Added label " + title);
-            });
             
-        }  
+            
+            /*************************************/
+            
+            
+            //var article =  getArticle(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID);
+            
+            getArticleA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID, function(article) {
+                        $('#dettaglioTitoloArticolo').text(sessionStorage.feedTitle);
+                        sessionStorage.articleTitle = article.title;
+                        sessionStorage.articleLink = article.link;
+                        
+                        //$('#dettaglioTitoloArticolo2').html("<a href='#' onclick=\"window.open('" + encodeURIComponent(article.link)  + "', '_system');\">" + article.title + "</a>");
+                        //$('#dettaglioTitoloArticolo2').html("<a href='#' onclick=\"window.open('" + article.link  + "', '_system');\">" + article.title + "</a>");
+                        $('#dettaglioTitoloArticolo2').html(article.title);
+                        $('#dettaglioDataArticolo').text(timeConverter(article.updated));
+                        //Rimuovo anchor
+                        var content = $('<div>' + article.content + '</div>');
+                        content.find('a').replaceWith(function() { return this.childNodes; });
+                        var newHtml = content.html();
+                        $('#contenutoArticolo').html(newHtml);
+                        
+                        
+                        
+                        //Setto a 'letto'
+                        setReadA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID, function(){});
+                        
+                        });
+            
+            
+            
+            
+            
+            
+            
+            //  ******* SHARING TOOLS
+            $('#facebookShare').click(function() {
+                                      window.open('http://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(sessionStorage.articleLink)  + '&t=' + encodeURIComponent(sessionStorage.articleLink),'_system');
+                                      });
+            $('#twitterShare').click(function() {
+                                     window.open('http://www.twitter.com/share?url=' + encodeURIComponent(sessionStorage.articleLink), '_system');
+                                     });
+            
+            /*  $('#emailShare').click(function() {
+             window.location.replace('mailto:?body=' + encodeURIComponent(article.link) + '&subject=' + article.title);
+             //window.open('mailto:pippo@pippo.com');
+             });*/
+            
+            $('#markUnread').click(function() {
+                                   setUnReadA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID, function() {
+                                              toast("Marked as 'unread'");
+                                              });
+                                   
+                                   });
+            
+            $('#addStar').click(function() {
+                                addStarA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID, function(){
+                                         toast("Star added");
+                                         });
+                                });
+            
+            
+            $('#openBrowser').click(function() {
+                                    window.open(sessionStorage.articleLink, '_system');
+                                    });
+            //  ******* FINE SHARING TOOLS
+            
+        }
         
         
-
-    }
-    
-function local_pageinit() {
-    /******** CARICO LABELS **************/
-    //var list = $('#labelsListView');
-    //var labels =  getLabels(sessionStorage.URL, sessionStorage.session_id);
-    getLabelsA(sessionStorage.URL, sessionStorage.session_id, function(labels) {
-        $.each(labels, function() {
-            //alert(this.id + " " + this.caption);
-            $('#labelsListView').append("<li><a href=\"#labelOKPopup\" data-rel=\"popup\" data-position-to=\"window\"  onclick=\"setArticleLabel('" + this.id + "','" + this.caption + "');\">" + this.caption + "</a></li>");     
-         });
-        $('#labelsListView').listview("refresh");
-    }); 
-    
-    
-
-    /*************************************/
-    
-    
-    //var article =  getArticle(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID);
-    
-    getArticleA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID, function(article) {
-        $('#dettaglioTitoloArticolo').text(sessionStorage.feedTitle);
-        sessionStorage.articleTitle = article.title;
-        sessionStorage.articleLink = article.link;
+        // GESTIONE SWIPE
+        $( document ).off("swipeleft");
+        $( document ).on( "swipeleft", function(event) {
+                         
+                         var successivo = nextArticle(sessionStorage.articleID);
+                         
+                         if (successivo != "0") {
+                         sessionStorage.articleID=successivo;
+                         //$.mobile.changePage( "flip.html", { transition: "flip"} );
+                         //$.mobile.changePage( "articolo.html", { transition: "flip"} );
+                         //$('#articlePage').addClass('ui-page-active');
+                         local_pageinit();
+                         return false;
+                         }
+                         
+                         });
+        $( document ).off("swiperight");
+        $( document ).on( "swiperight", function(event) {
+                         
+                         var precedente = prevArticle(sessionStorage.articleID);
+                         if (precedente != "0") {
+                         sessionStorage.articleID=precedente;
+                         //$.mobile.changePage( "articolo.html", { allowSamePageTransition: true } );
+                         //$.mobile.changePage( "flip.html", { transition: "flip", reverse:true} );
+                         //$.mobile.changePage( "articolo.html", { transition: "flip", reverse:true} );
+                         local_pageinit();
+                         return false;
+                         }    
+                         });
+        // FINE GESTIONE SWIPE
         
-        //$('#dettaglioTitoloArticolo2').html("<a href='#' onclick=\"window.open('" + encodeURIComponent(article.link)  + "', '_system');\">" + article.title + "</a>");
-        //$('#dettaglioTitoloArticolo2').html("<a href='#' onclick=\"window.open('" + article.link  + "', '_system');\">" + article.title + "</a>");
-        $('#dettaglioTitoloArticolo2').html(article.title);
-        $('#dettaglioDataArticolo').text(timeConverter(article.updated));
-        //Rimuovo anchor
         
-         var content = $('<div>' + article.content + '</div>');
-         content.find('a').replaceWith(function() { return this.childNodes; });
-        var newHtml = content.html();
-        $('#contenutoArticolo').html(newHtml);            
-    });
-    
-    
-    //Setto a 'letto'
-    setReadA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID, function(){});
-    
-    
-    
-    
-   //  ******* SHARING TOOLS 
-    $('#facebookShare').click(function() {
-      window.open('http://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(article.link)  + '&t=' + encodeURIComponent(article.title),'_system');
-    });
-    $('#twitterShare').click(function() {
-      window.open('http://www.twitter.com/share?url=' + encodeURIComponent(article.link), '_system');
-    });
-    
-  /*  $('#emailShare').click(function() {
-      window.location.replace('mailto:?body=' + encodeURIComponent(article.link) + '&subject=' + article.title);
-    //window.open('mailto:pippo@pippo.com');    
-    });*/
-    
-   $('#markUnread').click(function() {
-      setUnReadA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID, function() {
-         toast("Marked as 'unread'");
-      });
-      
-   });
-       
-   $('#addStar').click(function() {
-      addStarA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID, function(){
-        toast("Star added");                
-      });
-   });
-    
-    
-    $('#openBrowser').click(function() {
-      window.open(article.link, '_system');
-    });
-   //  ******* FINE SHARING TOOLS  
-    
-    
-    
-    
-}
-</script>
+        
+        
+        </script>
     <div data-role="header" data-position="fixed" data-theme="c">
-	<a href="dettaglio.html"  data-transition="flip" data-icon="back">Back</a>
-	<h1 id="dettaglioTitoloArticolo">Details</h1>
-	<a href="#popupMenu" data-icon="bars" class="jqm-navmenu-link" data-iconpos="notext">Options</a>
-</div>
-
-	<div data-role="content">
+        <a href="dettaglio.html"  data-transition="flip" data-icon="back">Back</a>
+        <h1 id="dettaglioTitoloArticolo">Details</h1>
+        <a href="#popupMenu" data-icon="bars" class="jqm-navmenu-link" data-iconpos="notext">Options</a>
+    </div>
     
-
-
-
-		<div style="margin:10px;">
+	<div data-role="content">
         
-        <h2 id="dettaglioTitoloArticolo2"></h2>
-        <h3 id="dettaglioDataArticolo"></h3>
+        
+        
+        
+		<div style="margin:10px;">
             
-
-        <p id="contenutoArticolo"></p>
-
+            <h2 id="dettaglioTitoloArticolo2"></h2>
+            <h3 id="dettaglioDataArticolo"></h3>
+            
+            
+            <p id="contenutoArticolo"></p>
+            
             
             <div data-role="popup" id="labelPopup" >
-	           <ul data-role="listview" data-inset="true" style="min-width:210px;" id="labelsListView">
+                <ul data-role="listview" data-inset="true" style="min-width:210px;" id="labelsListView">
 					<li data-role="divider" id="titoloDialog" data-theme="a">Labels</li>
-                   <li><a href="#" onclick="setArticleLabel(0)"  data-rel="popup" data-position-to="window" data-transition="slidedown">No Label</a></li>
-                   
+                    <li><a href="#" onclick="setArticleLabel(0)"  data-rel="popup" data-position-to="window" data-transition="slidedown">No Label</a></li>
+                    
                 </ul>
-                 
+                
             </div>
             
             
             
-
             
             
-      </div><!--/content-primary-->
-
+            
+        </div><!--/content-primary-->
+        
 		
 	</div>
-
+    
 	<div data-role="footer" class="footer-docs" data-theme="c" data-position="fixed" >
-            <p class="jqm-version"></p>
-			<p  class="af-copyright"></p>
+        <p class="jqm-version"></p>
+        <p  class="af-copyright"></p>
 	</div>
-<script>
-  //  global_pageinit();
-local_pageinit();    
-</script>
+    <script>
+        //  global_pageinit();
+        local_pageinit();    
+        </script>
 </div>
-
 
 
 

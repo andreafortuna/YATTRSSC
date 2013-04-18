@@ -13,7 +13,7 @@ function global_pageinit() {
 	$.mobile.buttonMarkup.hoverDelay = 0;
     
     
-	var version = "0.0.2 Beta",
+	var version = "0.0.3 Beta",
 	foothtml = "Version " + version,
 	cright = "&copy; 2013 Andrea Fortuna";
 
@@ -103,15 +103,27 @@ function caricaFeeds() {
 
 
 function caricaArticoli() {
+        var precedente=0;
+        var successivo=0;
+    
         $.mobile.loading('show', {text:"Updating..."});
         $('#dettaglioTitoloFeed').text(sessionStorage.feedTitle);
         var list = $('#articlesListView');
         list.empty();
         getArticlesA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.feedID, function(articles) {
             //alert(articles);
+            
+           
+           
 
-             $.each(articles, function() {                     
-                if (this.id != "") list.append("<li><a data-transition=\"flip\" style='white-space : normal;" + ((this.unread === true) ?  "font-style:normal;": "font-size:0.8em;color:#888") + "' href='articolo.html'  onclick=\"sessionStorage.articleID='" + this.id + "'\">" + this.title + "<p style='margin:5px;'>" + timeConverter(this.updated) + "</p></a></li>");
+             $.each(articles, function() {   
+                sessionStorage.AllArticles = JSON.stringify(articles);
+                if (this.id != "") {
+                    //alert(this.id + "--" + nextArticle(this.id)); 
+                    list.append("<li><a data-transition=\"flip\" style='white-space : normal;" + ((this.unread === true) ?  "font-style:normal;": "font-size:0.8em;color:#888") + "' href='articolo.html'  onclick=\"sessionStorage.articleID='" + this.id + "'\">" + this.title + "<p style='margin:5px;'>" + timeConverter(this.updated) + "</p></a></li>");
+                    //list.append("<li><a data-transition=\"flip\" style='white-space : normal;" + ((this.unread === true) ?  "font-style:normal;": "font-size:0.8em;color:#888") + "' href='articolo.html'  onclick=\"sessionStorage.articleID='" + this.id + "';sessionStorage.NarticleID='" + nextArticle(this.id) + "'\">" + this.title + "<p style='margin:5px;'>" + timeConverter(this.updated) + "</p></a></li>");
+                    //list.append("<li><a data-transition=\"flip\" style='white-space : normal;" + ((this.unread === true) ?  "font-style:normal;": "font-size:0.8em;color:#888") + "' href='articolo.html'  onclick=\"sessionStorage.articleID='" + this.id + "';sessionStorage.AllArticles='" + nextArticle(this.id) + "'\">" + this.title + "<p style='margin:5px;'>" + timeConverter(this.updated) + "</p></a></li>");
+                }
 			
              });
             list.listview("refresh");

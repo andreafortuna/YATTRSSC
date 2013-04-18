@@ -1,0 +1,15 @@
+{
+  "name": "YATTRSSC",
+  "description": "Yet Another Tiny Tiny RSS Client",
+  "launch_path": "/index.html",
+  "icons": {
+	"16": "/icons/Icon16.png",	
+    "128": "/icons/Icon128.png"
+  },
+  "developer": {
+    "name": "Andrea Fortuna",
+    "url": "http://andreafortuna.org"
+  },
+  "default_locale": "en",
+  "csp":"default-src *;script-src reader.andreafortuna.org; options eval-script inline-script;" 
+}

@@ -410,6 +410,9 @@ function getArticlesA(url, session_id, feed_id, funzione) {
 
 
 
+
+
+
 function getArticle(url, session_id, article_id) {
     var article = "";
     var data = {
