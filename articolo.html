@@ -93,8 +93,7 @@
                         
                         
                         //Setto a 'letto'
-                        setReadA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID, function(){});
-                        
+                        setReadA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID, function(){});                        
                         });
             
             
@@ -141,9 +140,9 @@
         // GESTIONE SWIPE
         $( document ).off("swipeleft");
         $( document ).on( "swipeleft", function(event) {
-                         
+                         //event.stopPropagation();
                          var successivo = nextArticle(sessionStorage.articleID);
-                         
+                         //prevArticle
                          if (successivo != "0") {
                          sessionStorage.articleID=successivo;
                          //$.mobile.changePage( "flip.html", { transition: "flip"} );
@@ -156,7 +155,7 @@
                          });
         $( document ).off("swiperight");
         $( document ).on( "swiperight", function(event) {
-                         
+                         //event.stopPropagation();    
                          var precedente = prevArticle(sessionStorage.articleID);
                          if (precedente != "0") {
                          sessionStorage.articleID=precedente;
@@ -221,6 +220,7 @@
         local_pageinit();    
         </script>
 </div>
+
 
 
 

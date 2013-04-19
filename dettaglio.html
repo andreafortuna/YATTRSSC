@@ -58,6 +58,40 @@ $("#flip-unreadA").val(localStorage.unread).slider("refresh");
     caricaArticoli();
     
 }
+    
+    var print = function(o){
+        var str='';
+        
+        for(var p in o){
+            if(typeof o[p] == 'string'){
+                str+= p + ': ' + o[p]+'; </br>';
+            }else{
+                str+= p + ': { </br>' + print(o[p]) + '}';
+            }
+        }
+        
+        return str;
+    }
+    
+    // HANDLING SWIPE ON LISTVIEW
+$( document ).on( "swipeleft swiperight", "#articlesListView li.ui-li", function( event ) {
+                 if (event.type === "swipeleft") {
+
+                    setReadA(sessionStorage.URL, sessionStorage.session_id, this.id, function(){                            
+                             toast("Marked as read");
+                             caricaArticoli("0");
+                        });
+                 }
+                 if (event.type === "swiperight") {
+                        addStarA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID, function(){
+                                 toast("Star added");
+                            });
+
+                 }
+    
+                 return false;
+});
+    
 </script>
     <div data-role="header" data-position="fixed" data-theme="c">
 	<a href="feeds.html"  data-transition="slide" data-direction="reverse" data-icon="back">Back</a>
