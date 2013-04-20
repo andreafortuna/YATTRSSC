@@ -3,7 +3,14 @@
 
 function login(url, user, password) {
     var session_id= "";
-    
+
+    function showAlert (message, title) {
+        if (navigator.notification) {
+            navigator.notification.alert(message, null, title, 'OK');
+        } else {
+            alert(title ? (title + ": " + message) : message);
+        }
+    }
     
 var data = {
         op: "login",
@@ -20,10 +27,8 @@ var data = {
           async:false,
           success: function(data)
           {
-            //$("#risultato").html(msg);
-              //alert( data.content.session_id);
               if (data.status == "1") {
-            if (localStorage.URL != "" && localStorage.URL !=  undefined) alert("Errore di accesso:" + data.content.error)
+             if (localStorage.URL != "" && localStorage.URL !=  undefined) showAlert("Error:" + data.content.error, "YATTRSSC");
                 session_id="";
               } else {
                 session_id = data.content.session_id;
@@ -32,9 +37,8 @@ var data = {
           error: function()
           {
             if (localStorage.URL!= "" && localStorage.URL != undefined)  { 
-                alert("Host unreachable:" + url + "\nPlease Check Network");
+                showAlert("Host unreachable:" + url + "\nPlease Check Network","YATTRSSC");
             } else {
-                //alert("configurazione");
                 $.mobile.changePage("account.html");
             }
             
@@ -60,16 +64,11 @@ function getCategories(url, session_id) {
           async:false,
           success: function(data)
           {
-            //$("#risultato").html(msg);
-              //alert( data.content);
               categorie= data.content;
-                // $.each(data.content, function() {
-                    //alert(this.id + " " + this.title);
-                //});
           },
           error: function()
           {
-            //alert("Errore di rete");
+
           }
       });
     return categorie;
@@ -92,20 +91,13 @@ function getCategoriesA(url, session_id, funzione) {
           async:true,
           success: function(data)
           {
-            //$("#risultato").html(msg);
-              //alert( data.content);
-              //categorie= data.content;
-                // $.each(data.content, function() {
-                    //alert(this.id + " " + this.title);
-                //});
               funzione(data.content);
           },
           error: function()
           {
-            //alert("Errore di rete");
+           
           }
       });
-    //return categorie;
 }
 
 
@@ -126,16 +118,10 @@ function getLabels(url, session_id) {
           async:false,
           success: function(data)
           {
-            //$("#risultato").html(msg);
-              //alert( data.content);
               labels= data.content;
-                /* $.each(data.content, function() {
-                    alert(this.id + " " + this.caption);
-                });*/
           },
           error: function()
           {
-            //alert("Errore di rete");
           }
       });
     return labels;
@@ -158,17 +144,10 @@ function getLabelsA(url, session_id, funzione) {
           async:true,
           success: function(data)
           {
-            //$("#risultato").html(msg);
-              //alert( data.content);
-              //labels= data.content;
-                /* $.each(data.content, function() {
-                    alert(this.id + " " + this.caption);
-                });*/
               funzione(data.content);
           },
           error: function()
           {
-            //alert("Errore di rete");
           }
       });
     
@@ -193,17 +172,12 @@ function removeArticleLabels(url, session_id, article_id) {
           async:false,
           success: function(data)
           {
-            //$("#risultato").html(msg);
-              //alert( data.content);
-              
                 $.each(data.content, function() {
-                    //alert(this.id + " " + this.caption);
                     removeLabel(url, session_id,article_id,this.id);
                 });
           },
           error: function()
           {
-            //alert("Errore di rete");
           }
       });
     return labels;
@@ -227,18 +201,13 @@ function removeArticleLabelsA(url, session_id, article_id, funzione) {
           async:true,
           success: function(data)
           {
-            //$("#risultato").html(msg);
-              //alert( data.content);
-              
                 $.each(data.content, function() {
-                    //alert(this.id + " " + this.caption);
                     removeLabelA(url, session_id,article_id,this.id, function(){});
                 });
                 funzione();
           },
           error: function()
           {
-            //alert("Errore di rete");
           }
       });
     return labels;
@@ -267,16 +236,11 @@ function getFeeds(url, session_id, cat_id) {
           async:false,
           success: function(data)
           {
-            //$("#risultato").html(msg);
-              //alert( data.content);
               feeds= data.content;
-                /* $.each(data.content, function() {
-                    alert(this.id + " " + this.title);
-                });*/
           },
           error: function()
           {
-            alert("Network Error, Please Check Network");
+            showAlert("Network Error, Please Check Network","YATTRSSC");
           }
       });
     return feeds;
@@ -308,7 +272,7 @@ function getFeedsA(url, session_id, cat_id, funzione) {
           },
           error: function()
           {
-            alert("Network Error, Please Check Network");
+            showAlert("Network Error, Please Check Network","YATTRSSC");
           }
       });
     return feeds;
@@ -343,16 +307,11 @@ function getArticles(url, session_id, feed_id) {
           timeout:5000,
           success: function(data)
           {
-            //$("#risultato").html(msg);
-              //alert( data.content.error);
               articles= data.content;
-                 //$.each(data.content, function() {
-                //    alert(this.id + " " + this.title);
-                //});
           },
           error: function()
           {
-            alert("Network Error, Please Check Network");
+            showAlert("Network Error, Please Check Network","YATTRSSC");
           }
       });
     return articles;
@@ -392,24 +351,14 @@ function getArticlesA(url, session_id, feed_id, funzione) {
           async:true,
           success: function(data)
           {
-            //$("#risultato").html(msg);
-              //alert( data.content.error);
-              //articles= data.content;
-                 //$.each(data.content, function() {
-                //    alert(this.id + " " + this.title);
-                //});
-              
               funzione(data.content);
           },
           error: function()
           {
-            alert("Network Error, Please Check Network");
+            showAlert("Network Error, Please Check Network","YATTRSSC");
           }
       });
 }
-
-
-
 
 
 
@@ -430,17 +379,13 @@ function getArticle(url, session_id, article_id) {
           async:false,
           success: function(data)
           {
-            //$("#risultato").html(msg);
-              //alert( data.content);
-              //article= data.content;
                 $.each(data.content, function() {
-                    //alert(this.id + " " + this.title);
                     article= this;
                 });
           },
           error: function()
           {
-            alert("Network Error, Please Check Network");
+            showAlert("Network Error, Please Check Network","YATTRSSC");
           }
       });
     return article;
@@ -464,18 +409,13 @@ function getArticleA(url, session_id, article_id, funzione) {
           async:true,
           success: function(data)
           {
-            //$("#risultato").html(msg);
-              //alert( data.content);
-              //article= data.content;
                 $.each(data.content, function() {
-                    //alert(this.id + " " + this.title);
-                    //article= this;
                     funzione (this);
                 });
           },
           error: function()
           {
-            alert("Network Error, Please Check Network");
+            showAlert("Network Error, Please Check Network","YATTRSSC");
           }
       });
     return article;
@@ -502,13 +442,10 @@ function setRead(url, session_id, article_id) {
           async:false,
           success: function(data)
           {
-            //$("#risultato").html(msg);
-             //alert(data.content.status);
-              //article= data.content;
           },
           error: function()
           {
-            alert("Network Error, Please Check Network");
+            showAlert("Network Error, Please Check Network","YATTRSSC");
           }
       });
     return article;
@@ -533,14 +470,11 @@ function setReadA(url, session_id, article_id, funzione) {
           async:true,
           success: function(data)
           {
-            //$("#risultato").html(msg);
-             //alert(data.content.status);
-              //article= data.content;
               funzione();
           },
           error: function()
           {
-            alert("Network Error, Please Check Network");
+            showAlert("Network Error, Please Check Network","YATTRSSC");
           }
       });
     return article;
@@ -563,14 +497,11 @@ function setAllReadA(url, session_id, feed_id, funzione) {
           async:true,
           success: function(data)
           {
-            //$("#risultato").html(msg);
-             //alert(data.content.status);
-              //article= data.content;
               funzione(data.content.status);
           },
           error: function()
           {
-            alert("Network Error, Please Check Network");
+            showAlert("Network Error, Please Check Network","YATTRSSC");
           }
       });
     return article;
@@ -600,13 +531,10 @@ function setLabel(url, session_id, article_id, label_id) {
           async:false,
           success: function(data)
           {
-            //$("#risultato").html(msg);
-             //alert(data.content.status);
-              //article= data.content;
           },
           error: function()
           {
-            alert("Network Error, Please Check Network");
+            showAlert("Network Error, Please Check Network","YATTRSSC");
           }
       });
     return article;
@@ -633,14 +561,11 @@ function setLabelA(url, session_id, article_id, label_id, funzione) {
           async:true,
           success: function(data)
           {
-            //$("#risultato").html(msg);
-             //alert(data.content.status);
-              //article= data.content;
               funzione();
           },
           error: function()
           {
-            alert("Network Error, Please Check Network");
+            showAlert("Network Error, Please Check Network","YATTRSSC");
           }
       });
     return article;
@@ -668,13 +593,10 @@ function removeLabel(url, session_id, article_id, label_id) {
           async:false,
           success: function(data)
           {
-            //$("#risultato").html(msg);
-             //alert(data.content.status);
-              //article= data.content;
           },
           error: function()
           {
-            alert("Network Error, Please Check Network");
+            showAlert("Network Error, Please Check Network");
           }
       });
     return article;
@@ -700,14 +622,11 @@ function removeLabelA(url, session_id, article_id, label_id, funzione) {
           async:true,
           success: function(data)
           {
-            //$("#risultato").html(msg);
-             //alert(data.content.status);
-              //article= data.content;
               funzione();
           },
           error: function()
           {
-            alert("Network Error, Please Check Network");
+            showAlert("Network Error, Please Check Network","YATTRSSC");
           }
       });
 
@@ -733,13 +652,10 @@ function setUnRead(url, session_id, article_id) {
           async:false,
           success: function(data)
           {
-            //$("#risultato").html(msg);
-             // alert(data.status);
-              //article= data.content;
           },
           error: function()
           {
-            alert("Network Error, Please Check Network");
+            showAlert("Network Error, Please Check Network","YATTRSSC");
           }
       });
     return article;
@@ -764,14 +680,11 @@ function setUnReadA(url, session_id, article_id, funzione) {
           async:true,
           success: function(data)
           {
-            //$("#risultato").html(msg);
-             // alert(data.status);
-              //article= data.content;
               funzione();
           },
           error: function()
           {
-            alert("Network Error, Please Check Network");
+            showAlert("Network Error, Please Check Network","YATTRSSC");
           }
       });
     return article;
@@ -797,13 +710,11 @@ function addStar(url, session_id, article_id) {
           async:false,
           success: function(data)
           {
-            //$("#risultato").html(msg);
-              //alert(data.content.status);
-              //article= data.content;
+            
           },
           error: function()
           {
-            alert("Network Error, Please Check Network");
+            showAlert("Network Error, Please Check Network","YATTRSSC");
           }
       });
     return article;
@@ -828,14 +739,11 @@ function addStarA(url, session_id, article_id, funzione) {
           async:true,
           success: function(data)
           {
-            //$("#risultato").html(msg);
-              //alert(data.content.status);
-              //article= data.content;
               funzione();
           },
           error: function()
           {
-            alert("Network Error, Please Check Network");
+            showAlert("Network Error, Please Check Network","YATTRSSC");
           }
       });
     return article;
@@ -861,14 +769,12 @@ function subscribe(url, session_id, feedurl, categoryID) {
           async:false,
           success: function(data)
           {
-            //$("#risultato").html(msg);
-              //alert(data.content.status);
               esito = data.content.status;
-              //article= data.content;
+
           },
           error: function()
           {
-            alert("Network Error, Please Check Network");
+            showAlert("Network Error, Please Check Network","YATTRSSC");
           }
       });
     return esito;
@@ -892,15 +798,11 @@ function subscribeA(url, session_id, feedurl, categoryID, funzione) {
           async:true,
           success: function(data)
           {
-            //$("#risultato").html(msg);
-              //alert(data.content.status);
               funzione(data.content.status);
-              //esito = data.content.status;
-              //article= data.content;
           },
           error: function()
           {
-            alert("Network Error, Please Check Network");
+            showAlert("Network Error, Please Check Network","YATTRSSC");
           }
       });
     return esito;
@@ -924,14 +826,12 @@ function unSubscribe(url, session_id, feed_id) {
           async:false,
           success: function(data)
           {
-            //$("#risultato").html(msg);
-              //alert(data.content.status);
               esito = data.content.status;
-              //article= data.content;
+
           },
           error: function()
           {
-            alert("Network Error, Please Check Network");
+            showAlert("Network Error, Please Check Network","YATTRSSC");
           }
       });
     return esito;
