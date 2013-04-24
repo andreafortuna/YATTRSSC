@@ -74,7 +74,7 @@
             
             
             //var article =  getArticle(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID);
-            
+            $.mobile.loading('show', {text:"Loading..."});
             getArticleA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID, function(article) {
                         $('#dettaglioTitoloArticolo').text(sessionStorage.feedTitle);
                         sessionStorage.articleTitle = article.title;
@@ -93,7 +93,8 @@
                         
                         
                         //Setto a 'letto'
-                        setReadA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID, function(){});                        
+                        setReadA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID, function(){});  
+                $.mobile.loading('hide');
                         });
             
             

@@ -93,7 +93,9 @@ function caricaFeeds() {
     list.empty();
     getFeedsA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.catID, function(feeds) {
               $.each(feeds, function() {
-                     if (this.id != "")  list.append("<li><a data-transition=\"slide\" href='dettaglio.html'  onclick=\"sessionStorage.feedID='" + this.id + "';sessionStorage.feedTitle='" + this.title + "'\">" + this.title + "</h4></a><span class=\"ui-li-count\">" + this.unread + "</span></li>");
+                    var feedtitle = this.title.replace(/\'/g,"\\\'");
+                     //if (this.id != "")  list.append("<li><a data-transition=\"slide\" href='dettaglio.html'  onclick=\"sessionStorage.feedID='" + this.id + "';sessionStorage.feedTitle='" + this.title + "'\">" + this.title + "</h4></a><span class=\"ui-li-count\">" + this.unread + "</span></li>");
+                  if (this.id != "")  list.append("<li><a data-transition=\"slide\" href='dettaglio.html'  onclick=\"sessionStorage.feedID='" + this.id + "';sessionStorage.feedTitle='" + feedtitle + "'\">" + this.title + "</h4></a><span class=\"ui-li-count\">" + this.unread + "</span></li>");
                      });
               list.listview("refresh");
               $.mobile.loading('hide');
