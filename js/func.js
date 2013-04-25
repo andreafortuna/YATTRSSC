@@ -60,10 +60,8 @@ function caricaCategorie() {
                    //Svuoto categorie
                    list.empty();
                    list.append("<li data-theme='b'><a href='#'>Categories</a> <a href='#' onclick='caricaCategorie();'>refresh</a></li>");
-                   $.each(categorie, function() {
-                          //if (this.unread > 0)
-                          list.append("<li><a data-transition=\"slide\" href='feeds.html'  onclick=\"sessionStorage.catID='" + this.id + "';sessionStorage.catTitle='" + this.title + "'\">" + this.title + "</h4></a><span class=\"ui-li-count\">" + this.unread + "</span></li>");
-                          
+                   $.each(categorie, function() {                          
+                          list.append("<li><a data-transition=\"slide\" href='feeds.html'  onclick=\"sessionStorage.catID='" + this.id + "';sessionStorage.catTitle='" + this.title + "'\">" + this.title + "</h4></a><span class=\"ui-li-count\">" + this.unread + "</span></li>");                          
                           });
                    list.listview("refresh");
                    $.mobile.loading('hide');
