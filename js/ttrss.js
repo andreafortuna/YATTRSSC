@@ -75,7 +75,6 @@ function getCategories(url, session_id) {
 }
 
 function getCategoriesA(url, session_id, funzione) {
-    //var categorie = "";
     var data = {
         op: "getCategories",
         sid: session_id,
@@ -393,13 +392,11 @@ function getArticle(url, session_id, article_id) {
 
 
 function getArticleA(url, session_id, article_id, funzione) {
-    var article = "";
     var data = {
         op: "getArticle",
         sid: session_id,
         article_id: article_id
-    };
-            
+    };            
       $.ajax({
           type: "POST",
           url: url + "/api/",
@@ -418,13 +415,11 @@ function getArticleA(url, session_id, article_id, funzione) {
             showAlert("Network Error, Please Check Network","YATTRSSC");
           }
       });
-    return article;
 }
 
 
 
 function setRead(url, session_id, article_id) {
-    var article = "";
     var data = {
         op: "updateArticle",
         sid: session_id,
@@ -448,11 +443,9 @@ function setRead(url, session_id, article_id) {
             showAlert("Network Error, Please Check Network","YATTRSSC");
           }
       });
-    return article;
 }
 
 function setReadA(url, session_id, article_id, funzione) {
-    var article = "";
     var data = {
         op: "updateArticle",
         sid: session_id,
@@ -477,11 +470,9 @@ function setReadA(url, session_id, article_id, funzione) {
             showAlert("Network Error, Please Check Network","YATTRSSC");
           }
       });
-    return article;
 }
 
 function setAllReadA(url, session_id, feed_id, funzione) {
-    var article = "";
     var data = {
         op: "catchupFeed",
         sid: session_id,
@@ -504,14 +495,12 @@ function setAllReadA(url, session_id, feed_id, funzione) {
             showAlert("Network Error, Please Check Network","YATTRSSC");
           }
       });
-    return article;
 }
 
 
 
 
 function setLabel(url, session_id, article_id, label_id) {
-    var article = "";
     var data = {
         op: "setArticleLabel",
         sid: session_id,
@@ -537,7 +526,6 @@ function setLabel(url, session_id, article_id, label_id) {
             showAlert("Network Error, Please Check Network","YATTRSSC");
           }
       });
-    return article;
 }
 
 function setLabelA(url, session_id, article_id, label_id, funzione) {
@@ -568,12 +556,10 @@ function setLabelA(url, session_id, article_id, label_id, funzione) {
             showAlert("Network Error, Please Check Network","YATTRSSC");
           }
       });
-    return article;
 }
 
 
 function removeLabel(url, session_id, article_id, label_id) {
-    var article = "";
     var data = {
         op: "setArticleLabel",
         sid: session_id,
@@ -599,7 +585,6 @@ function removeLabel(url, session_id, article_id, label_id) {
             showAlert("Network Error, Please Check Network");
           }
       });
-    return article;
 }
 
 function removeLabelA(url, session_id, article_id, label_id, funzione) {
@@ -634,7 +619,6 @@ function removeLabelA(url, session_id, article_id, label_id, funzione) {
 
 
 function setUnRead(url, session_id, article_id) {
-    var article = "";
     var data = {
         op: "updateArticle",
         sid: session_id,
@@ -658,11 +642,9 @@ function setUnRead(url, session_id, article_id) {
             showAlert("Network Error, Please Check Network","YATTRSSC");
           }
       });
-    return article;
 }
 
 function setUnReadA(url, session_id, article_id, funzione) {
-    var article = "";
     var data = {
         op: "updateArticle",
         sid: session_id,
@@ -687,12 +669,10 @@ function setUnReadA(url, session_id, article_id, funzione) {
             showAlert("Network Error, Please Check Network","YATTRSSC");
           }
       });
-    return article;
 }
 
 
 function addStar(url, session_id, article_id) {
-    var article = "";
     var data = {
         op: "updateArticle",
         sid: session_id,
@@ -717,11 +697,9 @@ function addStar(url, session_id, article_id) {
             showAlert("Network Error, Please Check Network","YATTRSSC");
           }
       });
-    return article;
 }
 
 function addStarA(url, session_id, article_id, funzione) {
-    var article = "";
     var data = {
         op: "updateArticle",
         sid: session_id,
@@ -746,7 +724,6 @@ function addStarA(url, session_id, article_id, funzione) {
             showAlert("Network Error, Please Check Network","YATTRSSC");
           }
       });
-    return article;
 }
 
 
@@ -781,7 +758,6 @@ function subscribe(url, session_id, feedurl, categoryID) {
 }
 
 function subscribeA(url, session_id, feedurl, categoryID, funzione) {
-    var esito = "";
     var data = {
         op: "subscribeToFeed",
         sid: session_id,
@@ -805,10 +781,9 @@ function subscribeA(url, session_id, feedurl, categoryID, funzione) {
             showAlert("Network Error, Please Check Network","YATTRSSC");
           }
       });
-    return esito;
 }
 
-//feed_id
+
 function unSubscribe(url, session_id, feed_id) {
     var esito = "";
     var data = {

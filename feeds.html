@@ -13,8 +13,7 @@
                 </div>
                 <script>
                     $("#flip-unread").slider({
-                        stop: function(event,ui) {
-                            //alert($("#flip-unread").val());
+                        stop: function(event,ui) {                            
                             localStorage.unread = $("#flip-unread").val();
                             caricaFeeds();
                             setTimeout(function() {$('#popupMenu').panel('close')},500);
@@ -28,14 +27,9 @@
     
 <script>
 function local_pageinit() {
-    //alert(sessionStorage.catTitle);
-    
-    
-    
     $('#dettaglioTitolo').text(sessionStorage.catTitle);
     caricaFeeds();
-    $("#flip-unread").val(localStorage.unread).slider("refresh");
-    
+    $("#flip-unread").val(localStorage.unread).slider("refresh");    
 }
 </script>
     <div data-role="header" data-position="fixed" data-theme="c">
@@ -46,11 +40,6 @@ function local_pageinit() {
 
 	<div data-role="content">
     
-
-    
-    
-		
-
 		<div style="margin:10px;">
         
         <h1 id="dettaglioTitolo2"></h1>
@@ -72,7 +61,6 @@ function local_pageinit() {
 			<p  class="af-copyright"></p>
 	</div>
 <script>
-//    global_pageinit();
 local_pageinit();    
 </script>
 </div>

@@ -7,7 +7,6 @@ function local_pageinit() {
 }
     
     function salva() {
-        //alert($("#URL").val());
         localStorage.URL = $("#URL").val();
         localStorage.Username = $("#username").val();
         localStorage.Password = $("#password").val();
@@ -21,7 +20,7 @@ function local_pageinit() {
     <div data-role="header" data-theme="c">
 	
 	<h1 id="dettaglioTitoloFeed">Account</h1>
-	<!-- <a href="" data-icon="check" data-transition="flip" onclick="salva();">Save</a>-->
+
 </div>
 
 	<div data-role="content">
@@ -62,7 +61,6 @@ function local_pageinit() {
 			<p  class="af-copyright"></p>
 	</div>
 <script>
-  //  global_pageinit();
 local_pageinit();    
 </script>
 </div>

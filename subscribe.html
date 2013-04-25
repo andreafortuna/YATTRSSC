@@ -3,8 +3,6 @@
 function salva() {
     var feedurl = $("#URL").val();
     var categoryID = $("#categorie-select-choice").val();
-    //alert(feedurl +  " - " + categoryID);
-     //var esito = subscribe(sessionStorage.URL, sessionStorage.session_id, feedurl, categoryID);
     subscribeA(sessionStorage.URL, sessionStorage.session_id, feedurl, categoryID, function(esito) {
         if (esito.code > "1") {
             if (esito.code=="5") toast("Invalid URL!");
@@ -21,9 +19,7 @@ function salva() {
 function local_pageinit() {
     
     //CARICO CATEGORIE
-    
-        //alert(session_id);
-        //var categorie =  getCategories(sessionStorage.URL, sessionStorage.session_id);
+
         getCategoriesA(sessionStorage.URL, sessionStorage.session_id, function(categorie) {
             var list = $('#categorie-select-choice');
             var primo=1;
@@ -77,7 +73,6 @@ function local_pageinit() {
 			<p  class="af-copyright"></p>
 	</div>
 <script>
-  //  global_pageinit();
 local_pageinit();    
 </script>
 </div>
