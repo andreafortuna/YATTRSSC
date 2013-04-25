@@ -98,7 +98,8 @@ img { max-width: 100%; }
 /* fluid images moved from jquery.mobile.core.css*/
 .ui-mobile img {
 	max-width: 100%;
-	height: 100%;
+	width: auto;
+	height: auto;
 }
 
 .ui-header .jqm-home { top: 0; }
