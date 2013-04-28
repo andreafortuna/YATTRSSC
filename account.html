@@ -7,7 +7,13 @@ function local_pageinit() {
 }
     
     function salva() {
-        localStorage.URL = $("#URL").val();
+        //HTTP/HTTPS Check
+        var final_url = $("#URL").val();
+        if (final_url.substring(0,4).toLowerCase() != "http") {
+            final_url = "http://" + final_url;
+        }
+        //alert(final_url);
+        localStorage.URL = final_url;
         localStorage.Username = $("#username").val();
         localStorage.Password = $("#password").val();
         $.mobile.changePage("index.html");

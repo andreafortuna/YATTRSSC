@@ -9,7 +9,7 @@ function global_pageinit() {
 	$.mobile.buttonMarkup.hoverDelay = 0;
     
     
-	var version = "0.0.3 Beta",
+	var version = "0.0.4 Beta",
 	foothtml = "Version " + version,
 	cright = "&copy; 2013 Andrea Fortuna";
     
