@@ -7,10 +7,16 @@ Allows you to read and manage your feeds, add tags and sharing posts on Facebook
  * HTTPS TT-RS instances: on iOS any ajax request fail. 
     A simple workaround: add at the end of AppDelegate.m this code
     `````
-    @implementation NSURLRequest(DataController)<br/>
+    @implementation NSURLRequest(DataController)
+    
     + (BOOL)allowsAnyHTTPSCertificateForHost:(NSString *)host
+    
     {
+    
         return YES;
+        
         }
+        
     @end
+    
 `````
