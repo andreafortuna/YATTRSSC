@@ -17,6 +17,34 @@ Allows you to read and manage your feeds, add tags and sharing posts on Facebook
         
         }
         
-    @end
-    
+    @end    
+`````
+
+on Android, first create a new class:
+`````
+import org.apache.cordova.CordovaWebViewClient;
+import org.apache.cordova.DroidGap;
+import android.net.http.SslError;
+import android.webkit.SslErrorHandler;
+import android.webkit.WebView;
+public class SSLAcceptingWebViewClient extends CordovaWebViewClient {
+    public SSLAcceptingWebViewClient(DroidGap ctx) {
+        super(ctx);
+    }
+    @Override
+    public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+        handler.proceed();
+    }
+}
+`````
+
+then change ths main activity:
+
+`````
+ super.onCreate(savedInstanceState);        
+ super.init();
+ CordovaWebViewClient webViewClient = new SSLAcceptingWebViewClient(this);
+ webViewClient.setWebView(this.appView);
+ this.appView.setWebViewClient(webViewClient);
+ super.loadUrl(Config.getStartUrl());        
 `````
