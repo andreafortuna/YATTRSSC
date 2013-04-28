@@ -67,11 +67,6 @@ function caricaCategorie() {
                    $.mobile.loading('hide');
                    });
     
-    
-    
-    
-    //
-    
 }
 
 function caricaFeeds() {
@@ -103,7 +98,7 @@ function caricaArticoli(loader) {
                         sessionStorage.AllArticles = JSON.stringify(articles);
                         if (this.id != "") {
                             list.append("<li id='" + this.id + "'>  <a data-transition=\"flip\" style='white-space : normal;" + ((this.unread === true) ?  "font-style:normal;": "font-size:0.8em;color:#888") + "' href='articolo.html' onclick=\"sessionStorage.articleID='" + this.id + "'\">" + this.title + "<p style='margin:5px;'>" + timeConverter(this.updated) + "</p></a></li>");
- 
+                        }
                         });
                      list.listview("refresh");
                     $.mobile.loading('hide');
