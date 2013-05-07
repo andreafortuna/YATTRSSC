@@ -3,6 +3,15 @@ $("#MainPage").live('pageinit', global_pageinit);
 
 
 
+function isAndroid(){
+    return navigator.userAgent.indexOf("Android") > 0;
+}
+
+function isiOS(){
+    return ( navigator.userAgent.indexOf("iPhone") > 0 || navigator.userAgent.indexOf("iPad") > 0 || navigator.userAgent.indexOf("iPod") > 0); 
+}
+
+
 
 function global_pageinit() {
     //Swipe Settings

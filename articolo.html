@@ -1,3 +1,4 @@
+
 <div data-role="page" id="articlePage" class="type-home">
     
     <div data-role="panel" id="popupMenu" data-position="right" data-display="push" data-theme="a">
@@ -6,6 +7,7 @@
         <a href="#labelPopup" data-icon="edit" data-role="button" onclick="$('#popupMenu').panel('close');" data-rel="popup" id="addLabel" data-transition="slidedown">Add a Label</a>
         <a href="#popupMenu" data-icon="forward" data-role="button" data-rel="close" id="facebookShare" >Share on Facebook</a>
         <a href="#popupMenu" data-icon="forward" data-role="button" data-rel="close" id="twitterShare">Share on Twitter</a>
+        <a href="#popupMenu" data-icon="forward" data-role="button" data-rel="close" id="androidShare">Share</a>
         <a href="#popupMenu" data-icon="forward" data-role="button" data-rel="close" id="openBrowser">Open in browser</a>
     </div>
     
@@ -29,6 +31,16 @@
             }
         }
         
+        
+        function shareAndroid() {
+  	       //NEED Android 'Share' plugin installed and configured: https://github.com/phonegap/phonegap-plugins/tree/master/Android/Share
+           window.plugins.share.show({
+    		subject: sessionStorage.articleTitle,
+    		text: sessionStorage.articleLink},
+    			function() {}, // Success function
+    			function() {alert('Share failed')} // Failure function
+			);
+        }
         
         function nextArticle(id) {
             var trovato=0;
@@ -57,6 +69,38 @@
         }
         
         function local_pageinit() {
+            
+            //check platform and setting share menu
+             if(isAndroid()){               
+                $("#androidShare").show();
+                $("#twitterShare").hide();
+                $("#facebookShare").hide();
+                 
+                var Share = function() {};
+            
+                 Share.prototype.show = function(content, success, fail) {
+                    return cordova.exec( function(args) {
+                    success(args);
+                }, function(args) {
+                    fail(args);
+                }, 'Share', '', [content]);
+                    
+                };
+
+                if(!window.plugins) {
+                    window.plugins = {};
+                }
+                if (!window.plugins.share) {
+                    window.plugins.share = new Share();
+                }  
+                 
+             }else if(isiOS()){
+                $("#androidShare").hide();
+                $("#twitterShare").show();
+                $("#facebookShare").show();
+             }
+            
+            
             /******** CARICO LABELS **************/
             //var list = $('#labelsListView');
             //var labels =  getLabels(sessionStorage.URL, sessionStorage.session_id);
@@ -133,6 +177,10 @@
             $('#openBrowser').click(function() {
                                     window.open(sessionStorage.articleLink, '_system');
                                     });
+            
+           $('#androidShare').click(function() {
+                shareAndroid();
+           });
             //  ******* FINE SHARING TOOLS
             
         }
