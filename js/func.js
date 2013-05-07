@@ -5,6 +5,13 @@ $("#MainPage").live('pageinit', global_pageinit);
 
 
 function global_pageinit() {
+    //Swipe Settings
+    $.event.special.swipe.scrollSupressionThreshold = 100;
+    $.event.special.swipe.durationThreshold = 1000;
+    $.event.special.swipe.horizontalDistanceThreshold = 175;
+    $.event.special.swipe.verticalDistanceThreshold = 30;
+    
+    
 	$.mobile.allowCrossDomainPages = true;
 	$.mobile.buttonMarkup.hoverDelay = 0;
     

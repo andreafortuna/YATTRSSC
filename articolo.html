@@ -57,9 +57,12 @@
         }
         
         function local_pageinit() {
-            /******** CARICO LABELS **************/            
+            /******** CARICO LABELS **************/
+            //var list = $('#labelsListView');
+            //var labels =  getLabels(sessionStorage.URL, sessionStorage.session_id);
             getLabelsA(sessionStorage.URL, sessionStorage.session_id, function(labels) {
                        $.each(labels, function() {
+                              //alert(this.id + " " + this.caption);
                               $('#labelsListView').append("<li><a href=\"#labelOKPopup\" data-rel=\"popup\" data-position-to=\"window\"  onclick=\"setArticleLabel('" + this.id + "','" + this.caption + "');\">" + this.caption + "</a></li>");
                               });
                        $('#labelsListView').listview("refresh");
@@ -69,7 +72,8 @@
             
             /*************************************/
             
-                    
+            
+            //var article =  getArticle(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID);
             $.mobile.loading('show', {text:"Loading..."});
             getArticleA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID, function(article) {
                         $('#dettaglioTitoloArticolo').text(sessionStorage.feedTitle);
@@ -135,24 +139,33 @@
         
         
         // GESTIONE SWIPE
+        
         $( document ).off("swipeleft");
         $( document ).on( "swipeleft", function(event) {
+                         //event.stopPropagation();
                          var successivo = nextArticle(sessionStorage.articleID);
                          //prevArticle
                          if (successivo != "0") {
-                             sessionStorage.articleID=successivo;
-                            local_pageinit();
-                            return false;
+                         sessionStorage.articleID=successivo;
+                         //$.mobile.changePage( "flip.html", { transition: "flip"} );
+                         //$.mobile.changePage( "articolo.html", { transition: "flip"} );
+                         //$('#articlePage').addClass('ui-page-active');
+                         local_pageinit();
+                         return false;
                          }
                          
                          });
         $( document ).off("swiperight");
         $( document ).on( "swiperight", function(event) {
+                         //event.stopPropagation();    
                          var precedente = prevArticle(sessionStorage.articleID);
                          if (precedente != "0") {
-                            sessionStorage.articleID=precedente;                        
-                            local_pageinit();
-                            return false;
+                         sessionStorage.articleID=precedente;
+                         //$.mobile.changePage( "articolo.html", { allowSamePageTransition: true } );
+                         //$.mobile.changePage( "flip.html", { transition: "flip", reverse:true} );
+                         //$.mobile.changePage( "articolo.html", { transition: "flip", reverse:true} );
+                         local_pageinit();
+                         return false;
                          }    
                          });
         // FINE GESTIONE SWIPE
@@ -200,10 +213,7 @@
 		
 	</div>
     
-	<div data-role="footer" class="footer-docs" data-theme="c" data-position="fixed" >
-        <p class="jqm-version"></p>
-        <p  class="af-copyright"></p>
-	</div>
+
     <script>
         //  global_pageinit();
         local_pageinit();    
