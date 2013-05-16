@@ -105,6 +105,9 @@
             //var list = $('#labelsListView');
             //var labels =  getLabels(sessionStorage.URL, sessionStorage.session_id);
             getLabelsA(sessionStorage.URL, sessionStorage.session_id, function(labels) {
+                        $('#labelsListView').empty();                
+                        $('#labelsListView').append("<li data-role='divider' id='titoloDialog' data-theme='a'>Labels</li>");
+                
                        $.each(labels, function() {
                               //alert(this.id + " " + this.caption);
                               $('#labelsListView').append("<li><a href=\"#labelOKPopup\" data-rel=\"popup\" data-position-to=\"window\"  onclick=\"setArticleLabel('" + this.id + "','" + this.caption + "');\">" + this.caption + "</a></li>");
