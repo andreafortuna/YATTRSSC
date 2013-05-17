@@ -2,9 +2,10 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
 	<title>YATTRSSC</title>
 	<link rel="stylesheet"  href="css/themes/default/jquery.mobile-1.3.0.css" />
+    
 	<link rel="stylesheet" href="css/jqm-docs.css" />
     <script src="phonegap.js"></script>
 
@@ -13,6 +14,8 @@
 	<script src="js/jquery.mobile-1.3.0.js"></script>
 <script src="js/func.js"></script>
     <script src="js/ttrss.js"></script>
+    <script type='application/javascript' src='js/fastclick.js'></script>
+    
 	<script>
 	
         document.addEventListener("deviceready", local_pageinit);
@@ -34,7 +37,7 @@
 	</script>
 </head>
 <body>
-<div data-role="page" class="type-home" id="MainPage">
+<div data-role="page" class="type-home" id="MainPage" data-dom-cache="true">
 	<div data-role="content">
 		<p class="jqm-version"></p>
 

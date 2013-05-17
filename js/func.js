@@ -21,11 +21,15 @@ function global_pageinit() {
     $.event.special.swipe.verticalDistanceThreshold = 30;
     
     
+    //Load Fastclick
+    FastClick.attach(document.body);
+
+    
 	$.mobile.allowCrossDomainPages = true;
 	$.mobile.buttonMarkup.hoverDelay = 0;
     
     
-	var version = "0.0.4 Beta",
+	var version = "0.0.5 Beta",
 	foothtml = "Version " + version,
 	cright = "&copy; 2013 Andrea Fortuna";
     

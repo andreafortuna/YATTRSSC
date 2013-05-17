@@ -4,7 +4,7 @@
     <div data-role="panel" id="popupMenu" data-position="right" data-display="push" data-theme="a">
         <a href="#popupMenu" data-icon="check" data-role="button" data-rel="close" data-rel="popup" data-position-to="window" id="markUnread" data-transition="slidedown">Mark as unread</a>
         <a href="#popupMenu" data-icon="star" data-role="button" data-rel="close" data-rel="popup" data-position-to="window" id="addStar" data-transition="slidedown">Add Star</a>
-        <a href="#labelPopup" data-icon="edit" data-role="button" onclick="$('#popupMenu').panel('close');" data-rel="popup" id="addLabel" data-transition="slidedown">Add a Label</a>
+        <a href="#popupMenu" data-icon="edit" data-role="button" data-rel="close" onclick="$('#labelPopup').popup('open');" id="addLabel" data-transition="slidedown">Add a Label</a>
         <a href="#popupMenu" data-icon="forward" data-role="button" data-rel="close" id="facebookShare" >Share on Facebook</a>
         <a href="#popupMenu" data-icon="forward" data-role="button" data-rel="close" id="twitterShare">Share on Twitter</a>
         <a href="#popupMenu" data-icon="forward" data-role="button" data-rel="close" id="androidShare">Share</a>
@@ -17,6 +17,7 @@
     <script>
         
         function setArticleLabel(id, title) {
+            $("#popupMenu").panel("close");
             $("#labelPopup").popup("close");
             if (id=="0") {
                 removeArticleLabelsA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID, function() {
@@ -25,8 +26,8 @@
                 
             } else {
                 setLabelA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID, id, function() {
-                          toast("Added label " + title);
-                          });
+                          toast("Added label " + title);                          
+                });
                 
             }
         }

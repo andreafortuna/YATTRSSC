@@ -1,9 +1,6 @@
 
 /** FUNZIONI TTRSS **/
 
-function login(url, user, password) {
-    var session_id= "";
-
     function showAlert (message, title) {
         if (navigator.notification) {
             navigator.notification.alert(message, null, title, 'OK');
@@ -11,6 +8,11 @@ function login(url, user, password) {
             alert(title ? (title + ": " + message) : message);
         }
     }
+
+function login(url, user, password) {
+    var session_id= "";
+
+
     
 var data = {
         op: "login",
