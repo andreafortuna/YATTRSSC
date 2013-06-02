@@ -18,7 +18,7 @@
         
         function setArticleLabel(id, title) {
             $("#popupMenu").panel("close");
-            $("#labelPopup").popup("close");
+            $("#labelPopup").popup("close");            
             if (id=="0") {
                 removeArticleLabelsA(sessionStorage.URL, sessionStorage.session_id, sessionStorage.articleID, function() {
                                      toast("All labels removed");
@@ -227,7 +227,7 @@
         
         </script>
     <div data-role="header" data-position="fixed" data-theme="c">
-        <a href="dettaglio.html"  data-transition="flip" data-icon="back">Back</a>
+        <a href="dettaglio.html"  data-transition="slide" data-direction="reverse"  data-icon="back">Back</a>
         <h1 id="dettaglioTitoloArticolo">Details</h1>
         <a href="#popupMenu" data-icon="bars" class="jqm-navmenu-link" data-iconpos="notext">Options</a>
     </div>
