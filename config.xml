@@ -2,7 +2,7 @@
 <widget xmlns = "http://www.w3.org/ns/widgets"
     xmlns:gap = "http://phonegap.com/ns/1.0"
     id        = "org.andreafortuna.yattrssc"
-    version   = "0.0.2">
+    version   = "0.0.5">
 
     
 <name>YATTRSSC</name>
@@ -11,6 +11,8 @@
 Yet Another Tiny Tiny RSS Client
 </description>
 
+<preference name="phonegap-version" value="2.7.0" />
+    
 <author href="https://www.andreafortuna.org" email="andy@andreafortuna.org">
 Andrea Fortuna
 </author>
